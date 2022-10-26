@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Curhat{% endblock %}
+{% block content %}
+<html>
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+</head>
+
+<body>
+    <h1><img src="{% static 'img/logo.png' %}" width=auto></h1>
+    <h1>Speak Up Now Online Consultation Form</h1>
+    <div class="form">
+        <form method="POST">
+            <div class="form-content">
+                {% csrf_token %}
+                {% for field in form %}
+
+                <p>
+                    {{ field.label }} <br> {{ field }}
+                </p>
+                {% endfor %}
+                <button type="submit" value="Submit" class="btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+{% endblock %}
