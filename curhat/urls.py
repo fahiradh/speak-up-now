@@ -3,4 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.curhat, name='curhat'),
+    path('success/', views.success, name='success'),
+    path('json/', views.riwayat_json, name='riwayat-json'),
 ]

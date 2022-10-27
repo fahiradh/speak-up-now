@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Riwayat Konsultasi{% endblock %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/bootstrap.card.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"> {% endcomment %}
+</head>
+
+
+<script>
+    $(document).ready(function(){
+        $('.modal').hide();
+        $('.backdrop').hide();
+        $.get('/curhat/json/', function(data){
+            let content = '';
+            for (let i=0; i<data.length; i++){
+            //let message = data[i].fields.is_finished ? 'Selesai':'Belum Selesai';
+            content += `
+                <div class="card-body">
+                    <div class ="card-text">
+                    <h5 class="card-title">💡 ${data[i].fields.title}</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success"> 📑 Deskripsi: ${data[i].fields.date}</li>
+                        <li class="list-group-item list-group-item-success"> 📅 Tanggal: ${data[i].fields.name}</li>
+                    </ul>
+                    </div>
+                    <div class="card-footer">
+                    <button class="btn-update"><a href="updatetask/${data[i].pk}">Update task</a></button>
+                    <button class="btn-delete" onclick="deleteTask(${data[i].pk})">Delete task</a></button>
+                    </div>
+                </div>
+                </div>
+                <div class="sep"></div>
+                `;
+            $('.content').html(content);
+        }
+      })
+    })
+</script>
+{% endblock content %}

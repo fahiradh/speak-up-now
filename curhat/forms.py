@@ -1,7 +1,14 @@
 from django import forms
 from curhat import models
 
+years = [x for x in range(2022, 2025)]
+
 class curhatForm(forms.Form):
+    date = forms.DateField(
+        label = "Date",
+        widget = forms.SelectDateWidget(years = years, attrs = {'class' : 'select'})
+    )
+
     name = forms.CharField(
         label = "Name/Initial",
         max_length= 100,
@@ -23,7 +30,7 @@ class curhatForm(forms.Form):
     )
 
     contactable = forms.ChoiceField(
-        label = "Need consultation in interactive mode?",
+        label = "Do you need consultation in interactive mode?",
         choices = [
             ("Y", "YES"),
             ("N", "NO"),
