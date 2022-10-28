@@ -9,4 +9,4 @@ class curhatDong(models.Model):
     name = models.CharField(max_length = 100)
     title = models.CharField(max_length = 100)
     description = models.CharField(max_length = 520)
-    contactable = models.CharField(max_length = 20)
+    contactable = models.CharField(max_length = 2)
