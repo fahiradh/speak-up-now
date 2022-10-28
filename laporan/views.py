@@ -33,7 +33,24 @@ def add_laporan(request):
     return HttpResponseNotFound()
 
 def show_laporan(request):
-    return
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        phone_num = request.POST.get('phone_num')
+        email = request.POST.get('email')
+        case_name = request.POST.get('case_name')
+        victim_name = request.POST.get('victim_name')
+        victim_description = request.POST.get('victim_description')
+        crime_place = request.POST.get('crime_place')
+        chronology = request.POST.get('chronology')
+        new_laporan = models.laporan(name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
+                                    victim_description = victim_description, crime_place = crime_place, chronology = chronology)
+        new_laporan.save()
+        print("hadir")
+    form_gen = laporanForm()
+    context = {
+        'form' : form_gen
+    }
+    return render(request, 'laporan.html', context)
 
 def form_laporan(request):
     if request.method == 'POST':
@@ -53,7 +70,7 @@ def form_laporan(request):
     context = {
         'form' : form_gen
     }
-    return render(request, 'laporan.html', context)
+    return render(request, 'laporanform.html', context)
 
 def show_json(request):
     data = models.laporan.objects.all()

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+
+<!-- Modal -->
+
+<body>
+    <h1>Speak Up Now Online Report Form</h1>
+    <div class="form" id = form>
+        <form method="POST" id = form2>
+            <div class="form-content">
+                {% csrf_token %}
+                {% for field in form %}
+
+                <p>
+                    {{ field.label }} <br> {{ field }}
+                </p>
+                {% endfor %}
+                <input type="button" id="SubmitButton"  value="Submit" class="btn">
+                <a class="btn btn-dark" href = "{% url 'laporan:show_laporan' %}"> Kembali </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+    async function refreshForm() {
+        console.log("pepe")
+        document.getElementById("form").innerHTML = ""
+        let htmlString = ""
+        htmlString += `
+            <form method="POST" id = form2>
+                <div class="form-content">
+                    {% csrf_token %}
+                    {% for field in form %}
+
+                    <p>
+                        {{ field.label }} <br> {{ field }}
+                    </p>
+                    {% endfor %}
+                    <input type="button" id="SubmitButton"  value="Submit" class="btn">
+                    <a class="btn btn-dark" href = "{% url 'laporan:show_laporan' %}"> Kembali </a>
+                </div>
+            </form>
+        `
+        
+        document.getElementById("form").innerHTML = htmlString
+        console.log("pepe2")
+    }
+    function addForm() {
+    console.log("asasa") 
+    alert("Berhasil")
+    fetch("{% url 'laporan:add_laporan' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#form2'))
+      }).then(refreshForm)
+    
+      
+    return false
+  }
+    document.getElementById('SubmitButton').onclick = addForm
+
+</script>
+
+{% endblock %}
