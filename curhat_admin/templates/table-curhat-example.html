@@ -23,47 +23,17 @@
                 </tr>
             </thead>
             <tbody class="table table-hover content">
+                <tr style="cursor: pointer;">
+                    <td class="text-center"><input type="checkbox" class="checkbox"></td>
+                    <td class="text-center">28 Oct 2022</td>
+                    <td class="text-center">Anonymous</td>
+                    <td class="text-center">Lorem Ipsum Dolor Sit</td>
+                    <td class="text-center">Lorem ipsum dolor sit amet, consectetur...</td>
+                    <td class="text-center"><input type="image" src="{% static 'media/btn-delete.png' %}" style="width: 30px; height: 30px; padding: 0;"/></td>
+                </tr>
             </tbody>
         </table>
     </div>
 
 </div>
-
-<script>
-    function showContent() {
-      $.get('/curhat_admin/json/', function(data, status){
-      let content = '';
-      for (let i=0; i<data.length; i++){
-        content += `
-        <tr style="cursor: pointer;">
-            <td class="text-center"><input type="checkbox" class="checkbox"></td>
-            <td class="text-center">${data[i].fields.date}</td>
-            <td class="text-center">${data[i].fields.name}</td>
-            <td class="text-center">${data[i].fields.title}</td>
-            <td class="text-center">${data[i].fields.description}</td>
-            <td class="text-center"><input type="image" src="{% static 'media/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-        </tr>
-        `;
-        $('.content').html(content);
-      }
-    })
-    }
-
-    function deleteRow(id) {
-      $.ajax({
-            type: 'DELETE',
-            url: `/curhat_admin/delete/${id}/`,
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-            },
-            success: function(data) {
-                $.get("/curhat_admin/json/", showContent);
-            },
-        });
-    }
-    
-    $(document).ready( function(){
-      $.get("/curhat_admin/json/", showContent);
-    })
-</script>
 {% endblock %}

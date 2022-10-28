@@ -12,7 +12,7 @@
 <div style="height:100px;"></div>
 <div class="container-md d-flex flex-row" style="padding: 25px;">
     <div class="back-btn-div">
-        <button type="button" class="back-btn" onclick="document.location='/curhat-admin/';"">
+        <button type="button" class="back-btn" onclick="document.location='/curhat-admin/table-example';"">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
             </svg>
@@ -43,20 +43,18 @@
           </div>
           <div class="modal-body">
             <div class="form-outline mb-4">
-              {{ form.title.label }}
-              <div style="height: 0.5rem;"></div>
-              {{ form.title }}
+              <label class="form-label" for="title-task">Title</label> 
+              <input type="text" id="title-task" name="title" class="form-control" required>
           </div>
     
           <div class="form-outline mb-4">
-              {{ form.description.label }}
-              <div style="height: 0.5rem;"></div>
-              {{ form.description }}
+              <label class="form-label" for="description-task">Your Reply</label> 
+              <textarea name="description" cols="10" rows="5" id="description-task" class="form-control" required></textarea>
           </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+            <button type="button" class="add-task-btn btn btn-primary" data-bs-dismiss="modal">Send</button>
           </div>
         </div>
       </div>
@@ -64,19 +62,5 @@
   </div>
 
   <script>
-  $(document).ready( function(){
-    $.get("/todolist/json/", showTask);
-
-    $('.add-task-btn').click( function(){
-      let title = $('#title-task').val();
-      let description = $('#description-task').val();
-      let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
-      $.post('/todolist/add/', {
-        title: title,
-        description: description,
-        csrfmiddlewaretoken: CSRFtoken
-      }, $.get("/todolist/json/", showTask))
-    })
-    })
   </script>
 {% endblock %}
