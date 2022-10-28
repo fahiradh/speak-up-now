@@ -41,7 +41,7 @@
             <td class="text-center">${data[i].fields.name}</td>
             <td class="text-center">${data[i].fields.title}</td>
             <td class="text-center">${data[i].fields.description}</td>
-            <td class="text-center"><input type="image" src="{% static 'media/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+            <td class="text-center"><input type="image" src="{% static 'image/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
         </tr>
         `;
         $('.content').html(content);
