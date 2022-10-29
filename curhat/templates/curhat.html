@@ -2,9 +2,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block meta %}
-  <title>Konsultasi</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <title>Konsultasi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 {% endblock meta %}
 {% block content %}
 
@@ -28,7 +28,7 @@
     <h1><input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" 
         type="button" value="Fill New Consultation Form" style="background: #2D55D0"></h1>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <form method="POST">
+      <form method="POST" id="form">
         {% csrf_token %}
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -41,7 +41,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" style="background: #2D55D0">Send</button>
+              <button type="submit" id="add-button" class="btn btn-primary" data-bs-dismiss="modal" style="background: #2D55D0">Send</button>
             </div>
           </div>
         </div>
@@ -54,12 +54,12 @@
               <table class="table table-hover rounded rounded-3 overflow-hidden">
                   <thead class="table" style="background-color: #2D55D0; color: #fff;">
                       <tr>
-                          <th class="text-center" style="padding: 1rem 1rem;"></th>
-                          <th class="text-center" style="padding: 1rem 1rem;">Date</th>
-                          <th class="text-center" style="padding: 1rem 1rem;">Name</th>
-                          <th class="text-center" style="padding: 1rem 1rem;">Title</th>
-                          <th class="text-center" style="padding: 1rem 1rem;">Description</th>
-                          <th class="text-center" style="padding: 1rem 1rem;"></th>
+                        <th class="text-center" style="padding: 1rem 1rem;"></th>
+                        <th class="text-center" style="padding: 1rem 1rem;">Date</th>
+                        <th class="text-center" style="padding: 1rem 1rem;">Name</th>
+                        <th class="text-center" style="padding: 1rem 1rem;">Title</th>
+                        <th class="text-center" style="padding: 1rem 1rem;">Description</th>
+                        <th class="text-center" style="padding: 1rem 1rem;"></th>
                       </tr>
                   </thead>
                   <tbody class="table table-hover content">
@@ -68,20 +68,20 @@
           </div>
       </div>
 
-    <script>
+    {% comment %} <script>
         $(document).ready(function(){
             $("#add-task").click(function(){
                 $('.modal-body').toggle();
             })
         })
-    </script>
+    </script> {% endcomment %}
 
     <!-- Modal Add Task Button -->
     <script>
+      showContent()
         $(document).ready(function() {
-          showContent()
-            $("#add-task-button").click(function(){
-                $.post("/curhat/add/", {
+            $("#add-button").click(function(){
+                $.post("/curhat/", {
                     name: $("#name").val(),
                     title: $("#title").val(), 
                     description : $('#description').val(),
@@ -89,14 +89,15 @@
                 }, 
                 function (data, status) {
                     if (status == 'success') {
+                        showContent()
                         resetForm()
                     }
                 })
-                showContent()
             })
         });
 
-        function resetForm(){
+
+        async function resetForm(){
             let current = $("#form");
                 current["0"]["1"].value = "";
                 current["0"]["2"].value = "";
@@ -108,34 +109,34 @@
             $.ajax({
                 type: "GET",
                 url: "/curhat/delete/" + pk,
+                dataType: "json"
                 success: function(data) {
                     $.get("/curhat/json/", showContent);
+                    showContent()
                 },
-                dataType: "json"
             });
-            showContent()
         }
 
         function showContent() {
           $.get('/curhat/json/', function(data, status){
           let content = '';
           for (let i=0; i<data.length; i++){
-            if (data[i].fields.name=="") continue
-            if (data[i].fields.title=="") continue
-            if (data[i].fields.description=="") continue
-            content += `
-                <tr style="cursor: pointer;">
-                    <td class="text-center"><input type="checkbox" class="checkbox"></td>
-                    <td class="text-center">${data[i].fields.date}</td>
-                    <td class="text-center">${data[i].fields.name}</td>
-                    <td class="text-center">${data[i].fields.title}</td>
-                    <td class="text-center">${data[i].fields.description}</td>
-                    <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-                </tr>
-              `;
-            $('.content').html(content);
-          }
-        })
+              if (data[i].fields.name=="") continue
+              if (data[i].fields.title=="") continue
+              if (data[i].fields.description=="") continue
+              content += `
+                  <tr style="cursor: pointer;">
+                      <td class="text-center"><input type="checkbox" class="checkbox"></td>
+                      <td class="text-center">${data[i].fields.date}</td>
+                      <td class="text-center">${data[i].fields.name}</td>
+                      <td class="text-center">${data[i].fields.title}</td>
+                      <td class="text-center">${data[i].fields.description}</td>
+                      <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+                  </tr>
+                `;
+              $('.content').html(content);
+            }
+          })
         }
     </script>
 
