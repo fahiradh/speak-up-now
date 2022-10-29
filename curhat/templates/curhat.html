@@ -101,7 +101,7 @@
             $.ajax({
                 type: "GET",
                 url: "/curhat/delete/" + pk,
-                dataType: "json"
+                dataType: "json",
                 success: function(data) {
                     $.get("/curhat/json/", showContent);
                     showContent()
