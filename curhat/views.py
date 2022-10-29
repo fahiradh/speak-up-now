@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -13,13 +14,14 @@ def add(request):
 
         if form.is_valid():
             data = models.curhatDong(
-                date = form.data['date_year'] + "-" + form.data['date_month'] + "-" + form.data['date_day'],
+                # date = form.data['date_year'] + "-" + form.data['date_month'] + "-" + form.data['date_day'],
+                date = datetime.date.today(),
                 name = form.data['name'],
                 title = form.data['title'],
                 description = form.data['description'],
             )
             data.save()
-            return redirect('/curhat/')
+            return HttpResponse(status=204)
     else:
         form = forms.curhatForm()
 
@@ -35,6 +37,6 @@ def riwayat_json(request):
     return HttpResponse(serializers.serialize("json", riwayat), content_type="application/json")
 
 def delete_konsultasi(request, id):
-    task = models.curhatDong.objects.get(pk=id)
-    task.delete()
+    data = models.curhatDong.objects.get(pk=id)
+    data.delete()
     return HttpResponse()
