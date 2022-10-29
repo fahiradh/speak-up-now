@@ -1,0 +1,35 @@
+body {
+    font-family: 'Poppins';
+    background-color: #F8F9FC;
+    font-size: 16px;
+}
+  
+th {
+    font-weight: normal;  
+}
+
+input[type=checkbox]{
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    transform: scale(1.5);
+    padding: 10px;
+}
+
+.container-md {
+    background-color: #fff;
+    border: 1px solid #CECACA;
+    border-radius: 15px;
+}
+
+.back-btn {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.back-btn-div {
+    margin-right: 25px;
+}

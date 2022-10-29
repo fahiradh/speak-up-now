@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'css/style_table_curhat.css' %}">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {% endblock meta %}
 
 {% block content %}
@@ -20,6 +21,7 @@
                     <th class="text-center" style="padding: 1rem 1rem;">Title</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Description</th>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
+                    <th class="text-center" style="padding: 1rem 1rem;"></th>
                 </tr>
             </thead>
             <tbody class="table table-hover content">
@@ -31,39 +33,51 @@
 
 <script>
     function showContent() {
-      $.get('/curhat_admin/json/', function(data, status){
-      let content = '';
-      for (let i=0; i<data.length; i++){
-        content += `
-        <tr style="cursor: pointer;">
-            <td class="text-center"><input type="checkbox" class="checkbox"></td>
-            <td class="text-center">${data[i].fields.date}</td>
-            <td class="text-center">${data[i].fields.name}</td>
-            <td class="text-center">${data[i].fields.title}</td>
-            <td class="text-center">${data[i].fields.description}</td>
-            <td class="text-center"><input type="image" src="{% static 'image/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-        </tr>
-        `;
-        $('.content').html(content);
-      }
+        $.get('/curhat-admin/json', function(data){
+          let content = '';
+          for (let i=0; i<data.length; i++){
+            let briefDescription;
+            if (data[i].fields.description.length > 50) {
+                briefDescription = data[i].fields.description.substr(0, 50) + '...';
+            } else {
+                briefDescription = data[i].fields.description;
+            }
+              content += `
+              <tr>
+                <td class="text-center"><input type="checkbox" class="checkbox"></td>
+                <td class="text-center">${data[i].fields.date}</td>
+                <td class="text-center">${data[i].fields.name}</td>
+                <td class="text-center">${data[i].fields.title}</td>
+                <td class="text-center">${briefDescription}</td>
+                <td class="text-center">
+                    <form action="/curhat-admin/curhat-details/${data[i].pk}" style="padding: 0; box-shadow: none;" method = "POST">{% csrf_token %}
+                        <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
+                    </form>
+                </td>
+                <td class="text-center"><input type="image" src="{% static 'image/btn-delete.png' %}" onmouseover="this.src='{% static 'image/btn-delete-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-delete.png' %}';" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+            </tr>
+            `;
+            $('.content').html(content);
+        }
     })
     }
 
     function deleteRow(id) {
+        console.log('asdf')
       $.ajax({
             type: 'DELETE',
-            url: `/curhat_admin/delete/${id}/`,
+            url: `/curhat-admin/delete/${id}`,
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
             },
             success: function(data) {
-                $.get("/curhat_admin/json/", showContent);
+                $.get("/curhat-admin/json", showContent);
             },
         });
     }
     
     $(document).ready( function(){
-      $.get("/curhat_admin/json/", showContent);
+        $.get("/curhat-admin/json", showContent);
     })
 </script>
 {% endblock %}
