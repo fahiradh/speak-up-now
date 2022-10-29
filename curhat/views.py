@@ -18,6 +18,7 @@ def add(request):
                 name = form.data['name'],
                 title = form.data['title'],
                 description = form.data['description'],
+                contactable = form.data['contactable']
             )
             data.save()
             return HttpResponse(status=204)
@@ -41,35 +42,28 @@ def delete_konsultasi(request, id):
     return HttpResponse()
 
 def detail_form(request, id):
+    # if request.method == "POST":
+    #     if form.is_valid():
+    #         cd = form.cleaned_data
+
+    #         form = models.curhatDong(
+    #             date = datetime.date.today(),
+    #             name = cd['name'],
+    #             title = cd['title'],
+    #             description = cd['description'],
+    #             contactable = cd['contactable']
+    #         )
+    #         form.save()
+    #     details = models.curhatDong.objects.get(pk=id)
+    #     form = forms.curhatForm()
+    #     contexts = {
+    #         'form': form,
+    #         'data' : details
+    #     }
+    #     return render(request, 'details-form.html', contexts)
+    # else:
+    #     form = forms.curhatForm()
     context = {
         'data' : models.curhatDong.objects.get(pk=id)
     }
     return render(request, 'detail-form.html', context)
-    
-def show_curhat_details(request, i):
-    form = replyCurhatForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            cd = form.cleaned_data
-
-            form = curhatAdmin(
-                title = cd['title'],
-                description = cd['description']
-            )
-            form.save()
-        details = curhatDong.objects.get(id=i)  
-        form = replyCurhatForm()
-        contexts = {
-            'form': form,
-            'details' : details
-        }
-        return render(request, 'curhat-details.html', contexts)
-    else:
-        form = replyCurhatForm()
-
-    details = curhatDong.objects.get(id=i)  
-    contexts = {
-        'form': form,
-        'details' : details
-    }
-    return render(request, 'curhat-details.html', contexts)
