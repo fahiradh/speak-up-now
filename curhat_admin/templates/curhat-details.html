@@ -20,14 +20,13 @@
     </div>
     <div class="container-sm ">
         <div class="top-section d-flex flex-row justify-content-between">
-            <h3>Lorem Ipsum Dolor Sit</h3>
+            <h3>{{ details.title }}</h3>
             <input class="btn btn-primary btn-reply" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" value="Reply">
         </div>
-        <p style="margin-bottom: 3rem;">28 Oct 2022</p>
-        <p>Anonymous</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non lacus dapibus, commodo ipsum in, consectetur nunc. Aliquam gravida quam massa, vitae gravida mi condimentum sit amet. Nulla eget libero eu lectus dictum aliquam. Pellentesque ullamcorper non odio non volutpat. Etiam sit amet vestibulum massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ullamcorper libero quam, id gravida turpis efficitur sit amet. Curabitur et euismod neque. In accumsan lacinia lorem, nec porttitor elit placerat vel. Mauris ut lacus eros.
-
-            Duis sodales vulputate luctus. Quisque finibus tincidunt sodales. Aliquam vitae felis nunc. Donec lacinia ipsum id ligula vehicula faucibus. Ut sit amet ante lorem. Nulla et arcu lectus. Nam efficitur diam ac ante sollicitudin, ut imperdiet erat porta. Ut massa massa, vestibulum et dui laoreet, rhoncus fermentum dolor. Nullam in turpis tempor nibh tempor dictum sed ac leo. Integer et tortor tincidunt, condimentum dolor id, egestas nulla. Duis.</p>
+        <p style="margin-bottom: 3rem;">{{ details.date }}</p>
+        <p>{{ details.name }}</p>
+        <p>{{ details.contactable }}</p>
+        <p>{{ details.description }}</p>
     </div>
 </div>
 
@@ -56,27 +55,25 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+            <button type="submit" class="btn btn-primary btn-send" data-bs-dismiss="modal">Send</button>
           </div>
         </div>
       </div>
     </form>
   </div>
 
-  <script>
-  $(document).ready( function(){
-    $.get("/todolist/json/", showTask);
-
-    $('.add-task-btn').click( function(){
-      let title = $('#title-task').val();
-      let description = $('#description-task').val();
+<script>
+    $(document).ready( function(){
+    $('.btn-send').click( function(){
+      let title = $('#title').val();
+      let description = $('#description').val();
       let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
       $.post('/todolist/add/', {
         title: title,
         description: description,
         csrfmiddlewaretoken: CSRFtoken
-      }, $.get("/todolist/json/", showTask))
+      })
     })
-    })
-  </script>
+  })
+</script>
 {% endblock %}
