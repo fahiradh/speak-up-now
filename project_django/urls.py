@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('example_app.urls')),
     path('curhat/', include('curhat.urls')),
     path('laporan/', include('laporan.urls')),
-    path('curhat-admin/', include('curhat_admin.urls'))
+    path('curhat-admin/', include('curhat_admin.urls')),
+    path('home/', include('home.urls')),
 ]
 
