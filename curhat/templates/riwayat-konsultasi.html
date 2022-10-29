@@ -28,7 +28,7 @@
     <h1><input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" 
         type="button" value="Fill New Consultation Form" style="background: #2D55D0"></h1>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <form method="POST">
+      <form method="POST" id="form">
         {% csrf_token %}
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -41,7 +41,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" id="add-task-button" class="btn btn-primary" data-bs-dismiss="modal" style="background: #2D55D0">Send</button>
+              <button type="button" id="submit-form" class="btn btn-primary" data-bs-dismiss="modal" style="background: #2D55D0">Send</button>
             </div>
           </div>
         </div>
@@ -70,32 +70,14 @@
       </div>
 
     <script>
-        $(document).ready(function(){
-            $("#add-task").click(function(){
-                $('.modal-body').toggle();
-            })
-        })
-    </script>
 
-    <!-- Modal Add Task Button -->
-    <script>
-        $(document).ready(function() {
-          showContent()
-            $("#add-task-button").click(function(){
-                $.post("/curhat/add/", {
-                    name: $("#name").val(),
-                    title: $("#title").val(), 
-                    description : $('#description').val(),
-                    contactable: $('#contactable').val()
-                }, 
-                function (data, status) {
-                    if (status == 'success') {
-                        resetForm()
-                    }
-                })
-                showContent()
-            })
-        });
+      function addForm() {
+        fetch("/curhat/add/", {
+              method: "POST",
+              body: new FormData(document.querySelector('#form'))
+          }).then(showContent)
+        return false
+      }
 
         function resetForm(){
             let current = $("#form");
@@ -142,13 +124,16 @@
                           <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
                         </form>
                       </td>
-                      <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-                  </tr>
+                      <td class="text-center"><input type="image" src="/static/img/btn-delete.png" onmouseover="this.src='/static/img/btn-delete-hover.png';" onmouseout="this.src='{% static 'img/btn-delete.png' %}';" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+                    </tr>
                 `;
               $('.content').html(content);
           }
         })
         }
+
+        document.getElementById('submit-form').onclick = addForm
+        showContent()
     </script>
 
 

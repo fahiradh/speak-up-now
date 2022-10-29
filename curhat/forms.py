@@ -3,11 +3,6 @@ from django import forms
 # years = [x for x in range(2022, 2025)]
 
 class curhatForm(forms.Form):
-    # date = forms.DateField(
-    #     label = "Date",
-    #     widget = forms.SelectDateWidget(years = years, attrs = {'class' : 'select', 'class' : 'form-select'})
-    # )
-
     name = forms.CharField(
         label = "Name/Initial",
         max_length= 100,

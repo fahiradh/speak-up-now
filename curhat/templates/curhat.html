@@ -60,6 +60,7 @@
                         <th class="text-center" style="padding: 1rem 1rem;">Title</th>
                         <th class="text-center" style="padding: 1rem 1rem;">Description</th>
                         <th class="text-center" style="padding: 1rem 1rem;"></th>
+                        <th class="text-center" style="padding: 1rem 1rem;"></th>
                       </tr>
                   </thead>
                   <tbody class="table table-hover content">
@@ -79,15 +80,13 @@
                   description : $('#description').val(),
                   contactable: $('#contactable').val()
               }, 
-              function (data, status) {
-                  if (status == 'success') {
-                      resetForm()
-                  }
-              })
-              showContent()
+              dataType: "json"
+              success: function(data) {
+                $.get("/curhat/json/", showContent);
+                showContent()
+              },
           })
       });
-
 
         async function resetForm(){
             let current = $("#form");
@@ -129,7 +128,7 @@
                       <td class="text-center">${data[i].fields.name}</td>
                       <td class="text-center">${data[i].fields.title}</td>
                       <td class="text-center">${briefDescription}</td>
-                      <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+                      <td class="text-center"><input type="image" src="/static/img/btn-delete.png" onmouseover="this.src='/static/img/btn-delete-hover.png';" onmouseout="this.src='{% static 'img/btn-delete.png' %}';" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
                   </tr>
                 `;
               $('.content').html(content);
