@@ -14,7 +14,6 @@ def add(request):
 
         if form.is_valid():
             data = models.curhatDong(
-                # date = form.data['date_year'] + "-" + form.data['date_month'] + "-" + form.data['date_day'],
                 date = datetime.date.today(),
                 name = form.data['name'],
                 title = form.data['title'],
@@ -30,7 +29,7 @@ def add(request):
         'form' : form,
     }
 
-    return render(request, 'curhat.html', contexts)
+    return render(request, 'riwayat-konsultasi.html', contexts)
 
 def riwayat_json(request):
     riwayat = models.curhatDong.objects.all()
@@ -40,3 +39,37 @@ def delete_konsultasi(request, id):
     data = models.curhatDong.objects.get(pk=id)
     data.delete()
     return HttpResponse()
+
+def detail_form(request, id):
+    context = {
+        'data' : models.curhatDong.objects.get(pk=id)
+    }
+    return render(request, 'detail-form.html', context)
+    
+def show_curhat_details(request, i):
+    form = replyCurhatForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            cd = form.cleaned_data
+
+            form = curhatAdmin(
+                title = cd['title'],
+                description = cd['description']
+            )
+            form.save()
+        details = curhatDong.objects.get(id=i)  
+        form = replyCurhatForm()
+        contexts = {
+            'form': form,
+            'details' : details
+        }
+        return render(request, 'curhat-details.html', contexts)
+    else:
+        form = replyCurhatForm()
+
+    details = curhatDong.objects.get(id=i)  
+    contexts = {
+        'form': form,
+        'details' : details
+    }
+    return render(request, 'curhat-details.html', contexts)

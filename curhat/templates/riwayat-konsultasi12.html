@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+<title>Konsultasi</title>
+{% endblock meta %}
+{% block content %}
+
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1><img src="{% static 'img/speakupnow.png' %}" width=auto></h1>
+        <h1>Speak Up Now Online Consultation</h1>
+        {% comment %} <button id="add-task" class="btn">Fill New Consultation Form</button>
+        <button id="add-task" class="btn">Profile</button> {% endcomment %}
+    </div>
+
+    {% comment %} <!-- To do list content -->
+    <div class="content"></div> {% endcomment %}
+    
+    <!-- Modals -->
+    <div class="container">
+      <button id="btn" data-toggle="modal" data-target="#myModal">Fill New Consultation Form</button>
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+        
+      <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 id="modal-title">Online Consultation Form</h4>
+          </div>
+                <div class="modal-body">
+                  <form method="POST" id="form" onsubmit="return false">
+                      {% csrf_token %}
+                      <div class="form-content">
+                          <p>Name
+                              <input class="input" id="name" placeholder="Name" required="required"></input>
+                          </p>
+                          <p>Title
+                              <input class="input" id="title" placeholder="Title" required="required"></input>
+                          </p>
+                          <p>Description
+                              <textarea class="description" id="description" placeholder="Description" rows="10" cols="50" required="required"></textarea>
+                          </p>
+                          <p>Do you need consultation in interactive mode?</p>
+                              <select class="input" id="contactable">
+                                  <option value="Y">Yes</option>
+                                  <option value="N">No</option>
+                              </select></p>
+                          </div>
+                      </form>
+                  </div>
+                <div class="modal-footer">
+                  <button class="btn" id="add-task-button">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:100px;"></div>
+          <div class="container-sm">
+              <div class="table-responsive-md">
+                  <table class="table table-hover rounded rounded-3 overflow-hidden">
+                      <thead class="table" style="background-color: #2D55D0; color: #fff;">
+                          <tr>
+                              <th class="text-center" style="padding: 1rem 1rem;"></th>
+                              <th class="text-center" style="padding: 1rem 1rem;">Date</th>
+                              <th class="text-center" style="padding: 1rem 1rem;">Name</th>
+                              <th class="text-center" style="padding: 1rem 1rem;">Title</th>
+                              <th class="text-center" style="padding: 1rem 1rem;">Description</th>
+                              <th class="text-center" style="padding: 1rem 1rem;"></th>
+                          </tr>
+                      </thead>
+                      <tbody class="table table-hover content">
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#add-task").click(function(){
+                $('.modal-body').toggle();
+            })
+        })
+    </script>
+
+    <!-- Modal Add Task Button -->
+    <script>
+        $(document).ready(function() {
+            showContent();
+            $("#add-task-button").click(function(){
+                $.post("/curhat/add/", {
+                    name: $("#name").val(),
+                    title: $("#title").val(), 
+                    description : $('#description').val(),
+                    contactable: $('#contactable').val()
+                }, 
+                function (data, status) {
+                    if (status == 'success') {
+                        $('#form').append(card(data))
+                        resetForm()
+                    }
+                })
+            })
+        });
+
+        function resetForm(){
+            let current = $("#form");
+                current["0"]["1"].value = "";
+                current["0"]["2"].value = "";
+                current["0"]["3"].value = "";
+                current["0"]["4"].value = "";
+        }
+
+        function deleteTask(pk){
+            $.ajax({
+                type: "GET",
+                url: "/curhat/delete/" + pk,
+                data: null,
+                success: data => console.log(data),
+                dataType: "json"
+            });
+        }
+
+        {% comment %} function loadData() {
+            $.get('/curhat/json', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('.card').append(card(data[i]));
+                }
+            });
+        } {% endcomment %}
+
+        function showContent() {
+          $.get('/curhat/json/', function(data, status){
+          let content = '';
+          for (let i=0; i<data.length; i++){
+            if (data[i].fields.name=="") continue
+            if (data[i].fields.title=="") continue
+            if (data[i].fields.description=="") continue
+            content += `
+                <tr style="cursor: pointer;">
+                    <td class="text-center"><input type="checkbox" class="checkbox"></td>
+                    <td class="text-center">${data[i].fields.date}</td>
+                    <td class="text-center">${data[i].fields.name}</td>
+                    <td class="text-center">${data[i].fields.title}</td>
+                    <td class="text-center">${data[i].fields.description}</td>
+                    <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+                </tr>
+              `;
+            $('.content').html(content);
+          }
+        })
+        }
+    </script>
+
+
+</body>
+</html>
+{% endblock content %}

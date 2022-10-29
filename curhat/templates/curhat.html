@@ -68,33 +68,25 @@
           </div>
       </div>
 
-    {% comment %} <script>
-        $(document).ready(function(){
-            $("#add-task").click(function(){
-                $('.modal-body').toggle();
-            })
-        })
-    </script> {% endcomment %}
-
     <!-- Modal Add Task Button -->
     <script>
-      showContent()
-        $(document).ready(function() {
-            $("#add-button").click(function(){
-                $.post("/curhat/", {
-                    name: $("#name").val(),
-                    title: $("#title").val(), 
-                    description : $('#description').val(),
-                    contactable: $('#contactable').val()
-                }, 
-                function (data, status) {
-                    if (status == 'success') {
-                        showContent()
-                        resetForm()
-                    }
-                })
-            })
-        });
+      $(document).ready(function() {
+        showContent()
+          $("#add-button").click(function(){
+              $.post("/curhat/", {
+                  name: $("#name").val(),
+                  title: $("#title").val(), 
+                  description : $('#description').val(),
+                  contactable: $('#contactable').val()
+              }, 
+              function (data, status) {
+                  if (status == 'success') {
+                      resetForm()
+                  }
+              })
+              showContent()
+          })
+      });
 
 
         async function resetForm(){
@@ -119,8 +111,14 @@
 
         function showContent() {
           $.get('/curhat/json/', function(data, status){
-          let content = '';
-          for (let i=0; i<data.length; i++){
+            let content = '';
+            let briefDescription;
+            if (data[i].fields.description.length > 50) {
+                briefDescription = data[i].fields.description.substr(0, 50) + '...';
+            } else {
+                briefDescription = data[i].fields.description;
+            }
+            for (let i=0; i<data.length; i++){
               if (data[i].fields.name=="") continue
               if (data[i].fields.title=="") continue
               if (data[i].fields.description=="") continue
@@ -130,7 +128,7 @@
                       <td class="text-center">${data[i].fields.date}</td>
                       <td class="text-center">${data[i].fields.name}</td>
                       <td class="text-center">${data[i].fields.title}</td>
-                      <td class="text-center">${data[i].fields.description}</td>
+                      <td class="text-center">${briefDescription}</td>
                       <td class="text-center"><input type="image" src="{% static 'img/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
                   </tr>
                 `;
