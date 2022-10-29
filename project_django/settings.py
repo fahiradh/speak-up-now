@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'curhat_admin',
     'laporan',
     'home',
+    'user_page'
 ]
 
 MIDDLEWARE = [
