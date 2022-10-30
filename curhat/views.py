@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 def add(request):
     if request.method == "POST":
         form = forms.curhatForm(request.POST)
-
         if form.is_valid():
             data = models.curhatDong(
                 date = datetime.date.today(),
