@@ -13,12 +13,12 @@ def show_laporan_json(request):
 
 def show_detail_json(request,id):
     if request.method == 'POST':
-        laporan_detail= laporan.objects.get(pk=id)
+        laporan_detail= laporan.objects.filter(pk=id)
         return HttpResponse(serializers.serialize("json", laporan_detail), content_type="application/json")
 
-def delete_laporan(request, id):
+def delete_laporan(request):
     if request.method == 'DELETE':
-        laporan_user = laporan.objects.get(pk=id)
+        laporan_user = laporan.objects.get(id=request.DELETE["id"])
         laporan_user.delete()
     return HttpResponse()
 

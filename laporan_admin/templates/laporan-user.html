@@ -55,7 +55,7 @@
     function deleteRow(id) {
       $.ajax({
             type: 'DELETE',
-            url: `/laporan-admin/delete/${id}/`,
+            url: `/laporan-admin/delete/`,
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
             },
