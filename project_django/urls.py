@@ -22,11 +22,11 @@ from curhat import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('example_app.urls')),
+    path('', include('home.urls')),
     path('curhat/', include('curhat.urls')),
     path('laporan/', include('laporan.urls')),
     path('curhat-admin/', include('curhat_admin.urls')),
-    path('home/', include('home.urls')),
+    # path('home/', include('home.urls')),
     path('user-page/', include('user_page.urls'))
 ]
 
