@@ -21,7 +21,7 @@ def add(request):
                 contactable = form.data['contactable']
             )
             data.save()
-            return HttpResponse(status=204)
+            return HttpResponse()
     else:
         form = forms.curhatForm()
 
@@ -30,6 +30,14 @@ def add(request):
         'form' : form,
     }
 
+    return render(request, 'riwayat-konsultasi.html', contexts)
+
+def show_laporan(request):
+    form_gen = forms.curhatForm()
+    contexts = {
+        'form' : form_gen,
+        'data' : models.curhatDong.objects.all().values(),
+    }
     return render(request, 'riwayat-konsultasi.html', contexts)
 
 def riwayat_json(request):
@@ -42,28 +50,13 @@ def delete_konsultasi(request, id):
     return HttpResponse()
 
 def detail_form(request, id):
-    # if request.method == "POST":
-    #     if form.is_valid():
-    #         cd = form.cleaned_data
-
-    #         form = models.curhatDong(
-    #             date = datetime.date.today(),
-    #             name = cd['name'],
-    #             title = cd['title'],
-    #             description = cd['description'],
-    #             contactable = cd['contactable']
-    #         )
-    #         form.save()
-    #     details = models.curhatDong.objects.get(pk=id)
-    #     form = forms.curhatForm()
-    #     contexts = {
-    #         'form': form,
-    #         'data' : details
-    #     }
-    #     return render(request, 'details-form.html', contexts)
-    # else:
-    #     form = forms.curhatForm()
+    data = models.curhatDong.objects.get(pk=id)
+    if (data.contactable == "N"):
+        message = "Mode: No need consultation in interactive mode"
+    else:
+        message = "Mode: Need consultation in interactive mode"
     context = {
-        'data' : models.curhatDong.objects.get(pk=id)
+        'data' : models.curhatDong.objects.get(pk=id),
+        'message' : message
     }
     return render(request, 'detail-form.html', context)
