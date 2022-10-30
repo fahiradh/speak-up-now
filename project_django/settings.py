@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'example_app',
     'curhat',
     'curhat_admin',
-    'laporan'
+    'laporan',
+    'laporan_admin',
 ]
 
 MIDDLEWARE = [
