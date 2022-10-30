@@ -1,1 +1,131 @@
 {% extends 'base.html' %}
+{% block content %}
+
+<title>Speak Up Now | Login</title>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<style>
+    .login{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 10px;
+        width: 400px;
+        height: auto;
+    }
+    .login h1{
+        text-align: center;
+        padding: 0 0 10px 0;
+        border-bottom: 1px solid silver;
+        cursor: default;
+    }
+    .login form{
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    form .form-control {
+        position: relative;
+        margin: 10px 0;
+        border-radius: 10px;
+    }
+    
+    .login label{
+        font-size: 32px;
+        width:100%;
+        padding: 0 5px;
+        height: 40px;
+    }
+    input {
+        width: 100%;
+        padding: 0 5px;
+        height: 40px;
+        font-size: 16px;
+    }
+    body{
+        background: #202A41;
+    }
+    input[type="submit"]{
+        width: 100%;
+        height: 50px;
+        border: 1px solid;
+        background: #2980b9;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: large;
+        color: white;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover{
+        border-color:#2980b9;
+        transition: .5s;
+    }
+    .signup {
+        margin: 30px 0;
+        text-align: center;
+        font-size: 16px;
+        color: #666666;
+        cursor: default;
+    }
+    .signup a{
+        color: #2980b9;
+        text-decoration: none;
+    }
+    .signup a:hover{
+        text-decoration:underline;
+        border-color:#2980b9;
+        transition: .5s;
+    }
+    ul{
+        cursor:default;
+    }
+</style>
+<body>
+    <a href="{% url 'home:homepage' %}">
+        <button type="button" class="btn btn-dark">
+            Kembali
+        </button>
+    </a>
+    <div class = "login">
+
+        <h1>Login</h1>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><label>Username: </label></td>
+                    <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                </tr>
+                        
+                <tr>
+                    <td><label>Password: </label></td>
+                    <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input class="btn login_btn" type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}     
+        <div class="signup">
+        Belum mempunyai akun?
+        <br>
+        <a href="{% url 'home:register' %}">Sign Up</a>
+        </div>
+    </div>
+</body>
+{% endblock content %}

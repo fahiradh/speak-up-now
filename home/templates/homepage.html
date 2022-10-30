@@ -11,8 +11,11 @@
         background-color:#0caa68;
         border-color: #0caa68;
     }
-    .btn-padding{
-        gap: 20px;
+    footer{
+        position:absolute;
+        bottom:0;
+        width: 100%;
+        height: auto;
     }
 </style>
 <head>
@@ -22,33 +25,33 @@
 </head>
 <nav class="navbar navbar-custom">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'home:homepage' %}">
             <img src="{% static 'img/speakupnow.png' %}" width=250px>
         </a>
         <div class="d-flex btn-padding">
-            <a href="#">
-                <button type="button" class="btn">
+            <a href="{% url 'home:homepage' %}">
+                <button type="button" class="btn m-4">
                     Home
                 </button>
             </a>
 
             <a href="#">
-                <button type="button" class="btn">
+                <button type="button" class="btn m-4">
                     Fitur
                 </button>
             </a>
             <a href="#">
-                <button type="button" class="btn">
+                <button type="button" class="btn m-4">
                     FAQ
                 </button>
             </a>
-            <a href="#">
-                <button type="button" class="btn">
+            <a href="{% url 'home:login' %}">
+                <button type="button" class="btn m-4">
                     login
                 </button>
             </a>
             <a href="{% url 'home:register' %}">
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary m-4">
                     Sign Up
                 </button>
             </a>
@@ -57,9 +60,60 @@
 </nav>
 
 <body>
-    <div>
-        
-    </div>
+    <article class="container mt-5">
+        <h1>Speak Up Now</h1>
+        <p>
+            Speak Up Now adalah....
+        </p>
+    </article>
+    <section class="text-center text-black">
+        <p style="padding-top: 50px;">
+            Membantu para penyintas kekerasan seksual di lingkungan
+            <br>
+            Universitas Indonesia mendapatkan keadilan 
+        </p>
+        <p class="mt-4">
+            <strong>Sangat mudah digunakan—</strong>mendapatkan umpan balik dari admin dan<br>kerahasiaan data terjamin
+        </p>
+    </section>
+    <section class="container d-flex justify-content-center">
+        <div class="btn-group-vertical m-4">
+            <a href="#">
+                <button type="button" class="btn btn-primary btn-lg btn-block mb-4">
+                    Konsultasi
+                </button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-primary btn-lg btn-block mt-4">
+                    Pelaporan
+                </button>
+            </a>
+        </div>
+    </section>
 </body>
-
+<footer class="text-center text-black" style="background-color: #3ECC90;">
+    <div class="container p-4">
+      <section class="">
+        <form action="">
+          <div class="row d-flex justify-content-center">
+            <div class="col-auto">
+              <p class="pt-2">
+                <strong>Sign up for our newsletter</strong>
+              </p>
+            </div>
+            <div class="col-md-5 col-12">
+              <div class="form-outline form-white mb-4">
+                <input type="email" placeholder="Your Email Address" class="form-control" />
+              </div>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-outline-light mb-4">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+</footer>
 {% endblock content %}
