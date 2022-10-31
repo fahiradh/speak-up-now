@@ -21,12 +21,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('example_app.urls')),
+    path('', include('home.urls')),
     path('curhat/', include('curhat.urls')),
     path('laporan/', include('laporan.urls')),
     path('curhat-admin/', include('curhat_admin.urls')),
-    path('laporan-admin/', include('laporan_admin.urls')),
+    path('user-page/', include('user_page.urls')),
+    path('home/', include('home.urls')),
+    path('laporan-admin/', include('laporan_admin.urls'))
 ]
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 

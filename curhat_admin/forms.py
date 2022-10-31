@@ -6,12 +6,12 @@ class replyCurhatForm(forms.Form):
         label = "Title",
         max_length= 100,
         required= True,
-        widget = forms.TextInput(attrs = {'class' : 'form-control'})
+        widget = forms.TextInput(attrs = {'class' : 'form-control', 'id' : 'title'})
     )
 
     description = forms.CharField(
         label = "Your Reply",
         max_length= 500,
         required= True,
-        widget = forms.Textarea(attrs = {'class' : 'form-control','rows' : 5})
+        widget = forms.Textarea(attrs = {'class' : 'form-control','rows' : 5, 'id' : 'description'})
     )
