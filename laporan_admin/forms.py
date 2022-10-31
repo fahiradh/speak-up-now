@@ -4,17 +4,17 @@ STATUS_CHOICES= [
     ('On Process', True),
     ('Rejected', False),
     ]
-
+    
 class laporanResponseForm(forms.Form):
     status_case = forms.ChoiceField(
-        id="status",
+        # id="status",
         label = "Status Pelaporan",
         required= True,
         widget = forms.RadioSelect(choices=STATUS_CHOICES)
     )
 
     message = forms.CharField(
-        id="message",
+        # id="message",
         label = "Add Short Message",
         max_length= 50,
         required= True,

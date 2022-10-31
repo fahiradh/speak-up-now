@@ -31,9 +31,9 @@ def show_detail_laporan(request,id):
         if form.is_valid():
             new_data = form.cleaned_data        
             new_response = laporanResponse (
-                laporan_user = laporan.objects.get(id=request.POST["id"]), # Hubungin ke laporan user
+                laporan_user = laporan.objects.get(pk=request.POST.get('id')), # Hubungin ke laporan user
                 admin_name = request.user.username,
-                case_name = laporan.objects.get(id=request.POST["id"]).fields.case_name, # Hubungin ke case pelapor
+                case_name = laporan.objects.get(pk=request.POST.get('id')).case_name, # Hubungin ke case pelapor
                 status_case = new_data['status_case'],
                 admin_response = new_data['admin_response'],
             )
