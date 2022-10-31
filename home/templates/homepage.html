@@ -51,10 +51,10 @@
     width: 1170px;
   }
 }
-header {
+{% comment %} header {
   padding: var(--mainPadding) 0;
-}
-header .container {
+} {% endcomment %}
+{% comment %} header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,7 +62,7 @@ header .container {
 header .container div.comp-name {
   font-size: 22px;
   font-weight: bold;
-}
+} {% endcomment %}
 header .container div span {
   margin: 0 10px;
   position: relative;
@@ -159,68 +159,6 @@ section.about .container div p {
   margin-top: 30px;
   line-height: 1.8;
 }
-{% comment %} section.nums {
-  padding: var(--mainPadding) 0;
-}
-section.nums .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-}
-section.nums .container div {
-  margin-block: 15px;
-  padding: var(--mainPadding);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-section.nums .container div:first-child {
-  background-color: var(--Red);
-}
-section.nums .container div:nth-child(2) {
-  background-color: var(--Blue);
-}
-section.nums .container div:last-child {
-  background-color: var(--Green);
-}
-section.nums .container div p {
-  font-size: 26px;
-  font-weight: bold;
-} {% endcomment %}
-{% comment %} section.skills {
-  padding: var(--mainPadding) 0;
-  background-color: var(--Grey);
-}
-section.skills .container h1 {
-  text-align: center;
-}
-section.skills .container div {
-  margin-block: 20px;
-  position: relative;
-  left: 100px;
-  background-color: #ccc;
-  width: calc(100% - 100px);
-  height: 35px;
-}
-section.skills .container div::before {
-  content: attr(data-lang);
-  position: absolute;
-  top: 5px;
-  left: -110px;
-  width: 100px;
-  text-align: right;
-  font-size: 18px;
-}
-section.skills .container div span {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 20px;
-  background-color: var(--Cyan);
-  color: #fff;
-} {% endcomment %}
 footer {
   padding: var(--mainPadding) 0;
   background-color: var(--DarkGrey);
