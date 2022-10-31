@@ -18,3 +18,9 @@ body {
 .back-btn-div {
   margin-right: 25px;
 }
+
+h1 {
+  color: #202A41;
+  text-align: center;
+  margin-top: 30px;
+}
