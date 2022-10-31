@@ -1,18 +1,75 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+{% block meta %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  {% block meta %}
-  {% endblock meta %}
-</head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  {% comment %} <link rel="stylesheet" href="static/navbar.css"> {% endcomment %}
+  <link rel="shortcut icon" type="image/jpg" href="static/img/logo.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+{% endblock meta %}
+<style>
+    .btn{
+        font-family: 'Poppins';
+        {% comment %} background-color: #3ECC90FC; {% endcomment %}
+        font-size: 16px;
+        border: var(--bs-btn-border-width) solid #0d0f1103;
+    }
+    
+    .navbar{
+        background-color: #3ECC90;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-shadow: 0 8px 16px 0 rgb(147 129 129 / 3%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+    
+    {% comment %} body{
+        margin: 30px;
+    } {% endcomment %}
+    .navbar-custom{
+        background-color: #3ECC90;
+    }
+    .btn:hover{
+        background-color:#0caa68;
+        border-color: #0caa68;
+    }
+    .btn-padding{
+        gap: 20px;
+    }
+</style>
+    <body>
+        <nav class="navbar navbar-custom">
+          <div class="container-fluid">
+              <a class="navbar-brand" href="/">
+                  <img src="{% static 'img/speakupnow.png' %}" style="width:40%; padding: 1px">
+              </a>
+              <div class="d-flex btn-padding">
+                  <a href="/">
+                      <button type="button" class="btn">
+                          Home
+                      </button>
+                  </a>
 
-<body>
+                  <a href="/user-page/">
+                      <button type="button" class="btn">
+                          Fitur
+                      </button>
+                  </a>
+                  <a href="#">
+                      <button type="button" class="btn">
+                          Login
+                      </button>
+                  </a>
+                  <a href="{% url 'home:register' %}">
+                      <button type="button" class="btn btn-primary" style="background-color: #2D55D0">
+                          Sign Up
+                      </button>
+                  </a>
+              </div>
+          </div>
+      </nav>
+
   {% block content %}
   {% endblock content %}
-</body>
 
+  </body>
 </html>
