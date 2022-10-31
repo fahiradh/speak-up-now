@@ -1,94 +1,61 @@
-{% comment %} {% extends 'base.html' %} {% endcomment %}
-{% block content %}
 
-<title>Register</title>
+{% block meta %}
+<title>Registrasi Akun</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+{% endblock meta %}
 
-<style>
-    .register{
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border-radius: 10px;
-        width: 400px;
-        height: auto;
-    }
-    .register h1{
-        text-align: center;
-        padding: 0 0 10px 0;
-        border-bottom: 1px solid silver;
-    }
-    body{
-        background: #202A41;
-    }
-    .container{
-        font-family: 'Poppins';
-        font-size: 16px;
-    }
-    td input{
-        border-radius: 5px;
-        width: 100%;
-        padding: 0 5px;
-        height: 30px;
-        margin: 10px 0;
-    }
-    input[type="submit"]{
-        width: 100%;
-        height: 50px;
-        border: 1px solid;
-        background: #2980b9;
-        border-radius: 10px;
-        font-weight: bold;
-        font-size: large;
-        color: white;
-        cursor: pointer;
-    }
-    input[type="submit"]:hover{
-        border-color:#2980b9;
-        transition: .5s;
-    }
+{% block content %}  
 
-</style>
-<body>
-    <div class="register">
-        <h1>Register</h1>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="container">
-                    <table>
-                        <tr>
-                            <th>
-                                <label for="id_username">Username:</label>
-                            </th>
-                            <td>
-                                <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" required="" id="id_username">
-                            </td>
-                            <tr>
-                                <th>
-                                    <label for="id-password1">Password:</label>
-                                </th>
-                                <br>
-                                <td>
-                                    <input type="password" name="password1" autocomplete="new-password" required="" id="id_password1">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="id_password2">Password Confirmation:</label>
-                                </th>
-                                <td>
-                                    <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
-                                </td>
-                            </tr>
-                        </tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" name="submit" value="Register">
-                        </td>
-                    </table>
+<section class="vh-100" style="background-color: #202A41;">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10 col-md-8 col-lg-6 col-xl-4">
+                <div class="card bg-light text-black d-flex justify-content-center" style="border-radius: 1rem; padding: 20px;">
+                    <h2 class="d-flex justify-content-center">Formulir Registrasi</h2>
+                
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="id_username">Username</label> 
+                            <input type="text" id="id_username" maxlength="150" name="username" class="form-control" required>
+                            <!-- <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span> -->
+                        </div>
+                
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="id_password1">Password</label> 
+                            
+                            <input type="password" id="id_password1" name="password1" class="form-control" autocomplete="new-password" required>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can’t be too similar to your other personal information.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password must contain at least 8 characters.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can’t be a commonly used password.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can’t be entirely numeric.</p>
+                        </div>
+
+                        <div class="form-outline mb-4" >
+                            <label class="form-label" for="id_password2">Password Confirmation</label> 
+                            <input type="password" id="id_password2" name="password2" class="form-control" autocomplete="new-password" required></div>
+                
+                        <div class="row d-flex justify-content-center align-content-center">
+                            <input class="btn btn-primary btn-block" style="width: 40%; margin-top: 1.5rem; margin-bottom: 0;" type="submit" name="submit" value="Daftar">
+                        </div>
+                    </form>
+                
+                    <div class="d-flex justify-content-center align-content-center">
+                        {% if messages %}  
+                            <ul>   
+                                {% for message in messages %}  
+                                    <li>{{ message }}</li>  
+                                    {% endfor %}  
+                            </ul>   
+                        {% endif %} 
+                    </div>
+                        
+
                 </div>
-            </form>
+            </div>
+        </div>
     </div>
-</body>
+</section>
+
 {% endblock content %}
