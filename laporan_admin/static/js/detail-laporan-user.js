@@ -27,10 +27,7 @@ $(document).on('submit', '#form_reply', function(e) {
     $.ajax({
         type:"POST",
         url:"{% url 'laporan_admin:reply_laporan_user' %}",
-        data:{
-            status_case:$("#status").val(),
-            admin_response:$("#message").val(), 
-        },
+        data:new FormData(document.querySelector("#form_reply")),
         dataType: 'json',
     })
     document.getElementById("form_reply").reset()

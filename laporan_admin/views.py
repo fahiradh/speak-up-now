@@ -18,7 +18,7 @@ def show_detail_json(request,id):
 
 def delete_laporan(request):
     if request.method == 'DELETE':
-        laporan_user = laporan.objects.get(id=request.DELETE["id"])
+        laporan_user = laporan.objects.get(pk=request.DELETE["id"])
         laporan_user.delete()
     return HttpResponse()
 
@@ -54,9 +54,9 @@ def reply_laporan_user(request):
         adminResponse = request.POST.get('admin_response')
         
         new_response = laporanResponse (
-            laporan_user = laporan.objects.get(id=request.POST["id"]), # Hubungin ke pelapor
+            laporan_user = laporan.objects.get(pk=request.POST["id"]), # Hubungin ke pelapor
             admin_name = request.user.username,
-            case_name = laporan.objects.get(id=request.POST["id"]).fields.case_name, # Hubungin ke case pelapor
+            case_name = laporan.objects.get(pk=request.POST["id"]).fields.case_name, # Hubungin ke case pelapor
             status_case = statusCase,
             admin_response = adminResponse,
         )
