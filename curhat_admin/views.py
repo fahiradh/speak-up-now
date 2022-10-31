@@ -54,9 +54,3 @@ def show_curhat_details(request, i):
         'message' : message
     }
     return render(request, 'curhat-details.html', contexts)
-
-def show_curhat_details_example(request):
-    return render(request, "curhat-details-example.html")
-
-def show_table_curhat_example(request):
-    return render(request, 'table-curhat-example.html')

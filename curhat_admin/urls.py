@@ -9,6 +9,4 @@ urlpatterns = [
     path('curhat-details/<int:i>', show_curhat_details, name='curhat-details'),
     path('json', table_json, name='table-json'),
     path('delete/<int:i>', delete_json, name='delete-json'),
-    path('table-example', show_table_curhat_example, name='table-curhat-example'),
-    path('curhat-details-example', show_curhat_details_example, name='curhat-details-example'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
