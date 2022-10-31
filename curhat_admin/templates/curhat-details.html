@@ -55,7 +55,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary btn-send" data-bs-dismiss="modal">Send</button>
+            <button type="submit" class="btn btn-primary btn-send">Send</button>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         title: title,
         description: description,
         csrfmiddlewaretoken: CSRFtoken
-      })
+      }), then($('#exampleModal').modal('hide'))
     })
   })
 </script>
