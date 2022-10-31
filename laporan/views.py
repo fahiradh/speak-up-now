@@ -30,7 +30,7 @@ def add_laporan(request):
             new_laporan = models.laporan(name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
                                         victim_description = victim_description, crime_place = crime_place, chronology = chronology)
             new_laporan.save()
-            new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
+            new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=False, admin_response="-")
             new_response.save()
         return HttpResponse(b"CREATED", status=201)
 
