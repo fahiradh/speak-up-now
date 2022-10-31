@@ -8,7 +8,7 @@ from laporan_admin.forms import laporanResponseForm
 
 # Create your views here.
 def show_laporan_json(request):
-    data_laporan = laporan.objects.all()
+    data_laporan = laporanResponse.objects.all()
     return HttpResponse(serializers.serialize("json", data_laporan), content_type="application/json")
 
 def show_detail_json(request,id):
@@ -31,9 +31,9 @@ def show_detail_laporan(request,id):
         if form.is_valid():
             new_data = form.cleaned_data        
             new_response = laporanResponse (
-                laporan_user = laporan.objects.get(id=request.POST["id"]), # Hubungin ke laporan user
+                laporan_user = laporan.objects.get(pk=request.POST["id"]), # Hubungin ke laporan user
                 admin_name = request.user.username,
-                case_name = laporan.objects.get(id=request.POST["id"]).fields.case_name, # Hubungin ke case pelapor
+                case_name = laporan.objects.get(pk=request.POST["id"]).case_name, # Hubungin ke case pelapor
                 status_case = new_data['status_case'],
                 admin_response = new_data['admin_response'],
             )
