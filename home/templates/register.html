@@ -1,76 +1,61 @@
-{% comment %} {% extends 'base.html' %} {% endcomment %}
-{% block content %}
 
-<title>Register</title>
+{% block meta %}
+<title>Registrasi Akun</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+{% endblock meta %}
 
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-</head>
+{% block content %}  
 
-<style>
-    .register{
-        position:relative;
-        top: 40%;
-        left:50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        border-radius: 10px;
-        width: 400px;
-        height: auto;
-    }
-    .register h1{
-        text-align: center;
-        padding: 0 0 10px 0;
-        border-bottom: 1px solid silver;
-    }
-    body{
-        background: #202A41;
-    }
-    
-</style>
-<body>
-    <a href="{% url 'homepage' %}">
-        <button type="button" class="btn btn-dark">
-            Kembali
-        </button>
-    </a>
-    <div class="register">
-        <h1>Registration Page</h1>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="container-fluid">
-                <div class="form-group first mr-4">
-                    <label for="username">Username</label>
-                    {{form.username}}
+<section class="vh-100" style="background-color: #202A41;">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10 col-md-8 col-lg-6 col-xl-4">
+                <div class="card bg-light text-black d-flex justify-content-center" style="border-radius: 1rem; padding: 20px;">
+                    <h2 class="d-flex justify-content-center">Formulir Registrasi</h2>
+                
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="id_username">Username</label> 
+                            <input type="text" id="id_username" maxlength="150" name="username" class="form-control" required>
+                            <!-- <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span> -->
+                        </div>
+                
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="id_password1">Password</label> 
+                            
+                            <input type="password" id="id_password1" name="password1" class="form-control" autocomplete="new-password" required>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can't be too similar to your other personal information.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password must contain at least 8 characters.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can't be a commonly used password.</p>
+                            <p style="font-size: 12px; margin-bottom: 0;">Your password can't be entirely numeric.</p>
+                        </div>
+
+                        <div class="form-outline mb-4" >
+                            <label class="form-label" for="id_password2">Password Confirmation</label> 
+                            <input type="password" id="id_password2" name="password2" class="form-control" autocomplete="new-password" required></div>
+                
+                        <div class="row d-flex justify-content-center align-content-center">
+                            <input class="btn btn-primary btn-block" style="width: 40%; margin-top: 1.5rem; margin-bottom: 0;" type="submit" name="submit" value="Daftar">
+                        </div>
+                    </form>
+                
+                    <div class="d-flex justify-content-center align-content-center">
+                        {% if messages %}  
+                            <ul>   
+                                {% for message in messages %}  
+                                    <li>{{ message }}</li>  
+                                    {% endfor %}  
+                            </ul>   
+                        {% endif %} 
+                    </div>
+                        
+
                 </div>
-                <div class="form-group last mb-4">
-                    <label for="password">Password</label>
-                    {{form.password1}}
-                </div>
-                <div class="form-group last mb-4">
-                    <label for="password">Confirm Password</label>
-                    {{form.password2}}
-                </div>
-                <div class="d-flex mb-5 align-items-center">
-                    <input class="form-check-input" type="radio" value="option1" id="admin-checkbox" name="radio-stack">
-                    <label class="form-check-label" for="admin-checkbox">
-                    {{form.is_admin}}
-                    Admin
-                    </label>
-                </div>
-                <div class="d-flex mb-5 align-items-center">
-                    <input class="form-check-input mr-4" type="radio" value="option2" id="user-checkbox" name="radio-stack">
-                    <label class="form-check-label" for="user-checkbox">
-                    {{form.is_user}}
-                    User
-                    </label>
-                </div>
-                <input type="submit" value="Register" class="btn btn-primary">
             </div>
-            </form>
+        </div>
     </div>
-</body>
+</section>
+
 {% endblock content %}

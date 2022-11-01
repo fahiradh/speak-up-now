@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from curhat import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +25,8 @@ urlpatterns = [
     path('curhat/', include('curhat.urls')),
     path('laporan/', include('laporan.urls')),
     path('curhat-admin/', include('curhat_admin.urls')),
+    path('user-page/', include('user_page.urls')),
     path('home/', include('home.urls')),
-    path('user-page/', include('user_page.urls'))
+    path('laporan-admin/', include('laporan_admin.urls'))
 ]
 

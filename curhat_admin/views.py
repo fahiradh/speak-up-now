@@ -14,11 +14,11 @@ def table_json(request):
     curhatan = curhatDong.objects.all()
     return HttpResponse(serializers.serialize('json', curhatan), content_type='application/json')
 
-def delete_json(request, id):
-    task = curhatDong.objects.get(id=id)
+def delete_json(request, i):
+    obj = curhatDong.objects.get(id=i)
 
     if request.method == 'DELETE':
-        task.delete()
+        obj.delete()
         
     return HttpResponse('')
 
@@ -44,9 +44,14 @@ def show_curhat_details(request, i):
         form = replyCurhatForm()
 
     details = curhatDong.objects.get(id=i)  
+    if (details.contactable == "N"):
+        message = "Mode: No need consultation in interactive mode"
+    else:
+        message = "Mode: Need consultation in interactive mode"
     contexts = {
         'form': form,
-        'details' : details
+        'details' : details,
+        'message' : message
     }
     return render(request, 'curhat-details.html', contexts)
 

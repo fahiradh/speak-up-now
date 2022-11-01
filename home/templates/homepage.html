@@ -4,24 +4,259 @@
 
 <title>Speak Up Now</title>
 <style>
-    .navbar-custom{
-        background-color: #3ECC90;
-    }
-    .btn:hover{
-        background-color:#0caa68;
-        border-color: #0caa68;
-    }
-    .btn-padding{
-        gap: 20px;
-    }
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+:root {
+  --Grey: #f6f6f6;
+  --Cyan: #03a9f4;
+  --Red: #b00020;
+  --Blue: #227093;
+  --Green: #218c74;
+  --DarkGrey: #333333;
+  --fb: #3b5998;
+  --twitter: #5da9dd;
+  --insta: #800080;
+  --github: #1b1f23;
+  --linkedin: #0077b5;
+  --mainPadding: 20px;
+  --mainDuration: 0.5s;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.center-f {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 738px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 962px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+header {
+  padding: var(--mainPadding) 0;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .container div.comp-name {
+  font-size: 22px;
+  font-weight: bold;
+}
+header .container div span {
+  margin: 0 10px;
+  position: relative;
+}
+header .container div span::before,
+header .container div span::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: var(--Cyan);
+  transition: var(--mainDuration) linear;
+  -webkit-transition: var(--mainDuration) linear;
+  -moz-transition: var(--mainDuration) linear;
+  -ms-transition: var(--mainDuration) linear;
+  -o-transition: var(--mainDuration) linear;
+}
+header .container div span::after {
+  top: -2px;
+  right: 0;
+}
+header .container div span:hover::before,
+header .container div span:hover::after {
+  width: 100%;
+}
+header .container div span a {
+  color: unset;
+  text-decoration: none;
+}
+section.services {
+  padding: var(--mainPadding) 0;
+  background-color: #f8f9fa;
+}
+section.services .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+}
+section.services .container h1 span {
+  color: #e32f2f;
+}
+section.services .container p {
+  text-align: center;
+  line-height: 1.8;
+  padding: var(--mainPadding) 0;
+}
+section.serv {
+  padding: var(--mainPadding) 0;
+}
+section.serv .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+section.serv .container div {
+  text-align: center;
+}
+section.serv .container div img {
+  width: 80px;
+}
+section.serv .container div p {
+  color: #777;
+}
+section.about {
+  padding: var(--mainPadding) 0;
+  background-color: var(--Grey);
+}
+section.about .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  section.about .container {
+    flex-direction: column;
+  }
+  section.about .container div {
+    width: unset !important;
+  }
+}
+section.about .container img {
+  width: 320px;
+  height: 220px;
+}
+section.about .container div {
+  display: inline-block;
+  margin-left: 30px;
+  padding: var(--mainPadding) 0;
+  width: calc(100% - 355px);
+}
+section.about .container div p {
+  margin-top: 30px;
+  line-height: 1.8;
+}
+section.nums {
+  padding: var(--mainPadding) 0;
+}
+section.nums .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+section.nums .container div {
+  margin-block: 15px;
+  padding: var(--mainPadding);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+section.nums .container div:first-child {
+  background-color: var(--Red);
+}
+section.nums .container div:nth-child(2) {
+  background-color: var(--Blue);
+}
+section.nums .container div:last-child {
+  background-color: var(--Green);
+}
+section.nums .container div p {
+  font-size: 26px;
+  font-weight: bold;
+} 
+section.skills {
+  padding: var(--mainPadding) 0;
+  background-color: var(--Grey);
+}
+section.skills .container h1 {
+  text-align: center;
+}
+section.skills .container div {
+  margin-block: 20px;
+  position: relative;
+  left: 100px;
+  background-color: #ccc;
+  width: calc(100% - 100px);
+  height: 35px;
+}
+section.skills .container div::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 5px;
+  left: -110px;
+  width: 100px;
+  text-align: right;
+  font-size: 18px;
+}
+section.skills .container div span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 20px;
+  background-color: var(--Cyan);
+  color: #fff;
+}
+footer {
+  padding: var(--mainPadding) 0;
+  background-color: var(--DarkGrey);
+}
+footer .container {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .container .fa-heart {
+  color: #b00020;
+}
+footer .container a {
+  color: var(--Cyan);
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  footer .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+      
 </style>
 <head>
+    <link rel="stylesheet" href="home/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 </head>
-{% comment %} <nav class="navbar navbar-custom">
+<!-- <nav class="navbar navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="{% static 'img/speakupnow.png' %}" width=250px>
@@ -38,6 +273,11 @@
                     Fitur
                 </button>
             </a>
+            <a href="#">
+                <button type="button" class="btn">
+                    FAQ
+                </button>
+            </a>
             <a href="{% url 'home:login' %}">
                 <button type="button" class="btn">
                     login
@@ -50,12 +290,102 @@
             </a>
         </div>
     </div>
-</nav> {% endcomment %}
-
+</nav> -->
 <body>
-    <div>
-        
-    </div>
+      <section class="services" id="services">
+        <div class="container">
+          <h1 style="font-weight:800">Speak Up<span> Now</span></h1>
+          <p>
+            Speak Up Now merupakan portal informasi dan pelaporan pelecehan seksual dalam lingkungan Universitas Indonesia.
+            Website ini bertujuan untuk menjadi salah satu penyedia jalan keluar dari masalah yang dihadapi para penyintas pelecehan seksual. 
+            Mengingat isu mengenai kejahatan gender, termasuk tindak pelecehan seksual, masih hangat dan perlu untuk digaungkan lebih keras lagi,
+            Speak Up Now hadir sebagai salah satu wadah untuk menyebarluaskan informasi tersebut.
+          </p>
+        </div>
+      </section>
+      <section class="serv">
+        <div class="container">
+          <div>
+            <img src="{% static '/img/ui.png' %}" alt="UI" />
+            <h4>Universitas Indonesia</h4>
+            <p>
+              Bekerja sama dengan Universitas Indonesia untuk membangun
+              kampus sebagai ruang aman.
+            </p>
+          </div>
+          <div>
+            <img src="{% static '/img/report.png' %}" alt="Report" />
+            <h4>Laporan</h4>
+            <p>
+              Menjadi teman pertama para penyintas untuk mendapatkan keadilan.
+            </p>
+          </div>
+          <div>
+            <img src="{% static '/img/konsul.png' %}" alt="Konsul" />
+            <h4>Konsultasi</h4>
+            <p>
+              Memberikan layanan terbaik untuk para penyintas memahami kondisinya.
+            </p>
+          </div>
+          <div>
+            <img src="{% static '/img/g20.png' %}" alt="G20" width="20px"/>
+            <h4>Mendukung G20</h4>
+            <p>
+              Mengangkat salah satu isu besar pada G20 tahun ini, yaitu gender, 
+              education, and social policies.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="about" id="about">
+        <div class="container">
+          <img src="https://i.ibb.co/vXp2xpy/team.png" alt="Team" />
+          <div>
+            <h2>About Me</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Sed sit amet sem ligula. Aliquam erat volutpat. Cras
+              lobortis ut augue vel ultrices. Mauris ut nisl a nibh
+              luctus sodales. Phasellus dictum egestas sem, in euismod
+              odio condimentum porttitor. Aenean elementum diam sed
+              neque ultricies.
+            </p>
+          </div>
+        </div>
+      </section>
+      {% comment %} <section class="nums">
+        <div class="container">
+          <div>
+            <p>2</p>
+            Layanan
+          </div>
+          <div>
+            <p>(jumlah admin)</p>
+            Admin
+          </div>
+          <div>
+            <p>(jumlah admin)</p>
+            Admin
+          </div>
+          <div>
+            <p>99+</p>
+            Reviews
+          </div>
+        </div>
+      </section> {% endcomment %}
+      <footer>
+        <div class="container">
+          <div>
+            Developed by
+            <a href="https://github.com/fahiradh/tugas-kelompok-pbp" target="_blank">
+              Kelompok D04
+            </a>
+          </div>
+          <div>&reg; All Rights Reserved &copy; 2022</div>
+        </div>
+      </footer>
+      
+  
 </body>
 
 {% endblock content %}

@@ -50,7 +50,7 @@
                 <td class="text-center">${data[i].fields.title}</td>
                 <td class="text-center">${briefDescription}</td>
                 <td class="text-center">
-                    <form action="/curhat-admin/curhat-details/${data[i].pk}" style="padding: 0; box-shadow: none;" method = "POST">{% csrf_token %}
+                    <form action="/curhat-admin/curhat-details/${data[i].pk}" style="padding: 0; box-shadow: none;" method = "GET">{% csrf_token %}
                         <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
                     </form>
                 </td>
