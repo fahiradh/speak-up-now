@@ -66,8 +66,9 @@
   </div>
 
 <script>
+  var id = "{{ id }}"
   function addForm() {
-    fetch('curhat-admin/add-reply', {
+    fetch(`curhat-admin/add-reply/${id}`, {
       method: 'POST',
       body: new FormData(document.querySelector('#form'))
     }, then($('#exampleModal').modal('hide')), then(showReply))
@@ -77,7 +78,7 @@
 
   function showReply() {
     console.log('asdf')
-      $.get('/curhat-admin/reply-json', function(data){
+      $.get(`/curhat-admin/reply-json${id}`, function(data){
         let content = '';
         for (let i=0; i<data.length; i++){
           content += `
@@ -85,7 +86,7 @@
           <div class="container-md d-flex flex-row" style="padding: 25px;">
             <div class="container-sm ">
               <div>
-                <h3>Reply from admin</h3>
+                <h4>Reply from admin</h4>
               </div>
               <div class="top-section d-flex flex-row justify-content-between">
                   <h3>${data[i].fields.title}</h3>
