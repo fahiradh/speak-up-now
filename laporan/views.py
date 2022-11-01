@@ -29,7 +29,7 @@ def add_laporan(request):
             victim_description = request.POST.get('victim_description')
             crime_place = request.POST.get('crime_place')
             chronology = request.POST.get('chronology')
-            new_laporan = models.laporan(user = models.Pengguna.objects.get(user = user_id),name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
+            new_laporan = models.laporan(name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
                                         victim_description = victim_description, crime_place = crime_place, chronology = chronology)
             new_laporan.save()
             new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
@@ -38,7 +38,6 @@ def add_laporan(request):
 
     return HttpResponseNotFound()
 
-@login_required(login_url='home:login')
 def show_laporan(request):
     form_gen = laporanForm()
     context = {
@@ -46,9 +45,8 @@ def show_laporan(request):
     }
     return render(request, 'laporan.html', context)
 
-@login_required(login_url='home:login')
 def show_json(request):
-    data = models.laporan.objects.filter(user = request.COOKIES['user'])
+    data = models.laporan.objects
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def delete_report(request, id):
