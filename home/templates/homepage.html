@@ -13,19 +13,15 @@
   --Blue: #227093;
   --Green: #218c74;
   --DarkGrey: #333333;
-  --fb: #3b5998;
-  --twitter: #5da9dd;
-  --insta: #800080;
-  --github: #1b1f23;
   --linkedin: #0077b5;
   --mainPadding: 20px;
   --mainDuration: 0.5s;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 .center-f {
   display: flex;
@@ -50,18 +46,6 @@
   .container {
     width: 1170px;
   }
-}
-header {
-  padding: var(--mainPadding) 0;
-}
-header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header .container div.comp-name {
-  font-size: 22px;
-  font-weight: bold;
 }
 header .container div span {
   margin: 0 10px;
@@ -159,68 +143,6 @@ section.about .container div p {
   margin-top: 30px;
   line-height: 1.8;
 }
-{% comment %} section.nums {
-  padding: var(--mainPadding) 0;
-}
-section.nums .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-}
-section.nums .container div {
-  margin-block: 15px;
-  padding: var(--mainPadding);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-section.nums .container div:first-child {
-  background-color: var(--Red);
-}
-section.nums .container div:nth-child(2) {
-  background-color: var(--Blue);
-}
-section.nums .container div:last-child {
-  background-color: var(--Green);
-}
-section.nums .container div p {
-  font-size: 26px;
-  font-weight: bold;
-} {% endcomment %}
-{% comment %} section.skills {
-  padding: var(--mainPadding) 0;
-  background-color: var(--Grey);
-}
-section.skills .container h1 {
-  text-align: center;
-}
-section.skills .container div {
-  margin-block: 20px;
-  position: relative;
-  left: 100px;
-  background-color: #ccc;
-  width: calc(100% - 100px);
-  height: 35px;
-}
-section.skills .container div::before {
-  content: attr(data-lang);
-  position: absolute;
-  top: 5px;
-  left: -110px;
-  width: 100px;
-  text-align: right;
-  font-size: 18px;
-}
-section.skills .container div span {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 20px;
-  background-color: var(--Cyan);
-  color: #fff;
-} {% endcomment %}
 footer {
   padding: var(--mainPadding) 0;
   background-color: var(--DarkGrey);
@@ -248,7 +170,6 @@ footer .container a {
       
 </style>
 <head>
-    <link rel="stylesheet" href="home/static/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -256,41 +177,7 @@ footer .container a {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 </head>
-{% comment %} <nav class="navbar navbar-custom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'img/speakupnow.png' %}" width=250px>
-        </a>
-        <div class="d-flex btn-padding">
-            <a href="#">
-                <button type="button" class="btn">
-                    Home
-                </button>
-            </a>
 
-            <a href="#">
-                <button type="button" class="btn">
-                    Fitur
-                </button>
-            </a>
-            <a href="#">
-                <button type="button" class="btn">
-                    FAQ
-                </button>
-            </a>
-            <a href="{% url 'home:login' %}">
-                <button type="button" class="btn">
-                    login
-                </button>
-            </a>
-            <a href="{% url 'home:register' %}">
-                <button type="button" class="btn btn-primary">
-                    Sign Up
-                </button>
-            </a>
-        </div>
-    </div>
-</nav> {% endcomment %}
 <body>
       <section class="services" id="services">
         <div class="container">
