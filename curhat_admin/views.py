@@ -3,6 +3,8 @@ from curhat.models import curhatDong
 from curhat_admin.forms import replyCurhatForm
 from django.http import HttpResponse
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 from curhat_admin.models import curhatAdmin
 
@@ -23,34 +25,43 @@ def delete_json(request, i):
     return HttpResponse('')
 
 def show_curhat_details(request, i):
-    form = replyCurhatForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            cd = form.cleaned_data
-
-            form = curhatAdmin(
-                title = cd['title'],
-                description = cd['description']
-            )
-            form.save()
-        details = curhatDong.objects.get(id=i)  
-        form = replyCurhatForm()
-        contexts = {
-            'form': form,
-            'details' : details
-        }
-        return render(request, 'curhat-details.html', contexts)
-    else:
-        form = replyCurhatForm()
-
+    form = replyCurhatForm()
     details = curhatDong.objects.get(id=i)  
     if (details.contactable == "N"):
         message = "Mode: No need consultation in interactive mode"
     else:
         message = "Mode: Need consultation in interactive mode"
     contexts = {
-        'form': form,
         'details' : details,
-        'message' : message
+        'message' : message,
+        'form' : form
     }
     return render(request, 'curhat-details.html', contexts)
+
+@csrf_exempt
+def add_reply(request):
+    form = replyCurhatForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            cd = form.cleaned_data
+            data = curhatAdmin(
+                # date = datetime.date.today(),
+                title = cd['title'],
+                description = cd['description'],
+            )
+            data.save()
+            return HttpResponse()
+    else:
+        form = replyCurhatForm()
+
+    contexts = {
+        'curhat' : curhatAdmin.objects.all().values(),
+        'form' : form,
+    }
+
+    return render(request, 'curhat-details.html', contexts)
+
+def reply_json(request, i):
+    reply_user = curhatDong.objects.get(id=i).user
+    reply = curhatAdmin.objects.filter(user=reply_user)
+    return HttpResponse(serializers.serialize('json', reply), content_type='application/json')

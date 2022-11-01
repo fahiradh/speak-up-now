@@ -29,11 +29,12 @@
         <p>{{ message }}</p>
         <p>{{ details.description }}</p>
     </div>
+    <div class="content"></div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="POST">
+    <form method="POST" id="form">
       {% csrf_token %}
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -56,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary btn-send">Send</button>
+            <button type="submit" class="btn btn-primary" id="btn-send">Send</button>
           </div>
         </div>
       </div>
@@ -64,17 +65,52 @@
   </div>
 
 <script>
-    $(document).ready( function(){
-    $('.btn-send').click( function(){
-      let title = $('#title').val();
-      let description = $('#description').val();
-      let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
-      $.post('/todolist/add/', {
-        title: title,
-        description: description,
-        csrfmiddlewaretoken: CSRFtoken
-      }), then($('#exampleModal').modal('hide'))
-    })
-  })
+  function addForm() {
+    fetch('curhat-admin/add-reply', {
+      method: 'POST',
+      body: new FormData(document.querySelector('#form'))
+    }, then($('#exampleModal').modal('hide')), then(showReply))
+    console.log('asdf')
+    return false;
+  }
+
+  function showReply() {
+      $.get('/curhat-admin/reply-json', function(data){
+        let content = '';
+      //   content += `
+      //   <div style="height: 1rem;"></div>
+      //   <div class="container-md d-flex flex-row" style="padding: 25px;">
+      //     <div class="container-sm ">
+      //       <div>
+      //         <h3>Reply from admin</h3>
+      //       </div>
+      //       <div class="top-section d-flex flex-row justify-content-between">
+      //           <h3>${data.fields.title}</h3>
+      //       </div>
+      //       <p>${data.fields.description}</p>
+      //     </div>
+      //   </div>`
+      // $('.content').html(content);
+      for (let i=0; i<data.length; i++){
+        content += `
+        <div style="height: 1rem;"></div>
+        <div class="container-md d-flex flex-row" style="padding: 25px;">
+          <div class="container-sm ">
+            <div>
+              <h3>Reply from admin</h3>
+            </div>
+            <div class="top-section d-flex flex-row justify-content-between">
+                <h3>${data.fields.title}</h3>
+            </div>
+            <p>${data.fields.description}</p>
+          </div>
+        </div>`
+      $('.content').html(content);
+      }
+      })
+  }
+
+    document.getElementById('btn-send').onclick = addForm;
+    showReply();
 </script>
 {% endblock %}
