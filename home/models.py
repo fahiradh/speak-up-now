@@ -1,8 +1,7 @@
 from email.policy import default
 from django.db import models
-from django.contrib.auth.models import User
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
 
-class Pengguna(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
+    is_user = models.BooleanField(default=False)
