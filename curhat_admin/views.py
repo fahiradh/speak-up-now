@@ -61,7 +61,7 @@ def add_reply(request):
 
     return render(request, 'curhat-details.html', contexts)
 
-def reply_json(request, i):
-    reply_user = curhatDong.objects.get(id=i).user
-    reply = curhatAdmin.objects.filter(user=reply_user)
+def reply_json(request):
+    # reply_user = curhatDong.objects.get(id=i).user
+    reply = curhatAdmin.objects.all()
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
