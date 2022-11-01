@@ -9,5 +9,4 @@ urlpatterns = [
     path('add-laporan/', views.add_laporan, name = 'add_laporan'),
     path('json/', views.show_json, name='show_json'),
     path('delete/<int:id>', views.delete_report, name='delete_report')
-
 ]
