@@ -1,3 +1,5 @@
+from pyexpat import model
+from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
@@ -55,6 +57,9 @@ def delete_report(request, id):
     return HttpResponse(b"DELETED", status=201)
 
 def detail_laporan(request, id):
-    data = models.laporan.objects.get(pk=id)
-    context = {'item' : data}
+    laporan = models.laporan.objects.get(pk=id)
+    response = models.laporanResponse.objects.filter(laporan_user=id)
+    context = {'item' : laporan,
+            'response' : response
+            }
     return render(request, 'laporan-detail.html', context)
