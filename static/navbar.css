@@ -1,0 +1,22 @@
+body{
+    font-family: 'Poppins';
+    background-color: #F8F9FC;
+}
+
+.navbar{
+    background-color: #3ECC90;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-shadow: 0 8px 16px 0 rgb(147 129 129 / 3%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.navbar-custom{
+    background-color: #3ECC90;
+}
+.btn-nav:hover{
+    background-color:#0caa68;
+    border-color: #0caa68;
+}
+.btn-padding{
+    gap: 20px;
+}

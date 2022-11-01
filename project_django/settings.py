@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'curhat',
     'curhat_admin',
     'laporan',
+    'laporan_admin',
     'home',
+    'user_page'
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'home.User'

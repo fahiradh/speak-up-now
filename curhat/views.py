@@ -1,58 +1,61 @@
 import datetime
-from pyexpat import model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse
-from . import models
+from django.http import HttpResponse
+from . import models, forms
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @csrf_exempt
 def add(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        contactable = request.POST.get("contactable")
-        obj = models.curhatDong.objects.create(
-            date=datetime.date.today(),
-            name=name,
-            title=title,
-            description=description,
-            contactable=contactable,
-        )
-        result = {
-            'fields':{
-                'date': obj.date,
-                'name': obj.name,
-                'title': obj.title,
-                'description': obj.description,
-                'contactable': obj.contactable,
-            },
-            'pk': obj.pk
-        }
-    return JsonResponse(result)
+        form = forms.curhatForm(request.POST)
+        if form.is_valid():
+            data = models.curhatDong(
+                date = datetime.date.today(),
+                name = form.data['name'],
+                title = form.data['title'],
+                description = form.data['description'],
+                contactable = form.data['contactable']
+            )
+            data.save()
+            return HttpResponse()
+    else:
+        form = forms.curhatForm()
 
-def show_riwayat(request):    
-    # riwayat = models.curhatDong.objects.filter(user=request.user)    
-    riwayat = models.curhatDong.objects.all()
     contexts = {
-        'list': riwayat,
-        # 'username' : request.user.username,
+        'curhat' : models.curhatDong.objects.all().values(),
+        'form' : form,
+    }
+
+    return render(request, 'riwayat-konsultasi.html', contexts)
+
+def show_laporan(request):
+    form_gen = forms.curhatForm()
+    contexts = {
+        'form' : form_gen,
+        'data' : models.curhatDong.objects.all().values(),
     }
     return render(request, 'riwayat-konsultasi.html', contexts)
 
 def riwayat_json(request):
     riwayat = models.curhatDong.objects.all()
-    # serialized_posts = serializers.serialize('json', riwayat)
-    # print(serialized_posts)
-    # context = {'riwayat': riwayat, 'serialized_posts': serialized_posts}
     return HttpResponse(serializers.serialize("json", riwayat), content_type="application/json")
-    # return render(request, 'riwayat-konsultasi.html', context)
 
 def delete_konsultasi(request, id):
-    # task = models.curhatDong.objects.filter(id=id, user=request.user)
-    task = models.curhatDong.objects.filter(id=id)
-    task.delete()
+    data = models.curhatDong.objects.get(pk=id)
+    data.delete()
     return HttpResponse()
+
+def detail_form(request, id):
+    data = models.curhatDong.objects.get(pk=id)
+    if (data.contactable == "N"):
+        message = "Mode: No need consultation in interactive mode"
+    else:
+        message = "Mode: Need consultation in interactive mode"
+    context = {
+        'data' : models.curhatDong.objects.get(pk=id),
+        'message' : message
+    }
+    return render(request, 'detail-form.html', context)
