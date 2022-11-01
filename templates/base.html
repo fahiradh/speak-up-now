@@ -4,17 +4,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    {% comment %} <link rel="stylesheet" href="static/navbar.css"> {% endcomment %}
     <link rel="shortcut icon" type="image/jpg" href="static/img/logo.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 {% endblock meta %}
-<<<<<<< HEAD
 <style>
 /* default css start */
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 .cntr {
@@ -28,7 +27,6 @@
   background-size: cover;
 }
 /* default css end */
-
 
 /* navbar regular css start */
 .nav-area {
@@ -102,8 +100,6 @@ a.site-logo {
 }
 /* nav-toggler css start */
 
-
-
 /* mobile breakpoint start */
 @media screen and (max-width: 767px) {
   .cntr {
@@ -152,17 +148,6 @@ a.site-logo {
 }
 /* mobile breakpoint end */
 </style>
-{% comment %} <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- font-family -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"
-        rel="stylesheet">
-    <title>Responsive NavBar</title>
-</head> {% endcomment %}
 <header class="hdr-area">
     <!-- site-nav start -->
     <div class="nav-area">
@@ -175,10 +160,10 @@ a.site-logo {
   
           <!-- site menu/nav -->
           <ul>
-            <li><a href="/home/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/user-page/">Fitur</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">Sign Up</a></li>
+            <li><a href="/login/">Login</a></li>
+            <li><a href="/register/">Sign Up</a></li>
           </ul>
   
           <!-- nav-toggler for mobile version only -->
@@ -188,24 +173,6 @@ a.site-logo {
         </nav>
       </div>
     </div><!-- nav-area end -->
-  
-
-{% comment %} 
-<header style="padding: 0px">
-    {% comment %} <div class="nav-cntr"> {% endcomment %}
-        {% comment %} <nav class="menu">
-            <div class="logo">
-                <img src="{% static 'img/speakupnow.png' %}" style="width:40%; padding: 1px">
-            </div>
-            <ul class="navbar">
-                <li><a href="/">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a class href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </div> {% endcomment %}
-{% comment %} </header> {% endcomment %}
 
 <script>
     // define all UI variable
@@ -239,70 +206,6 @@ function navLinkClick() {
 </script>
   {% block content %}
   {% endblock content %}
-=======
-    <style>
-        .btn{
-            font-family: 'Poppins';
-            {% comment %} background-color: #3ECC90FC; {% endcomment %}
-            font-size: 16px;
-            border: var(--bs-btn-border-width) solid #0d0f1103;
-        }
-        
-        .navbar{
-            background-color: #3ECC90;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            box-shadow: 0 8px 16px 0 rgb(147 129 129 / 3%), 0 6px 20px 0 rgb(0 0 0 / 19%);
-        }
-        
-        {% comment %} body{
-            margin: 30px;
-        } {% endcomment %}
-        .navbar-custom{
-            background-color: #3ECC90;
-        }
-        .btn:hover{
-            background-color:#0caa68;
-            border-color: #0caa68;
-        }
-        .btn-padding{
-            gap: 20px;
-        }
-    </style>
-        <body>
-            <nav class="navbar navbar-custom">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="{% static 'img/speakupnow.png' %}" style="width:40%; padding: 1px">
-                </a>
-                <div class="d-flex btn-padding">
-                    <a href="/">
-                        <button type="button" class="btn">
-                            Home
-                        </button>
-                    </a>
-
-                    <a href="/user-page/">
-                        <button type="button" class="btn">
-                            Fitur
-                        </button>
-                    </a>
-                    <a href="{% url 'home:login' %}">
-                        <button type="button" class="btn">
-                            Login
-                        </button>
-                    </a>
-                    <a href="{% url 'home:register' %}">
-                        <button type="button" class="btn btn-primary" style="background-color: #2D55D0">
-                            Sign Up
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </nav>
-{% block content %}
-{% endblock content %}
->>>>>>> 73051b79cab783c123b25055da563d0cf9d50f05
 
   </body>
 </html>
