@@ -9,7 +9,19 @@ from home.models import Pengguna
 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    list = Pengguna.objects.all()
+    count_admin = 0
+    count_user = 0
+    for i in list:
+        if i.is_konsulir == True:
+            count_admin += 1
+        elif i.is_konsulir == False and i.is_staff == False:
+            count_user += 1
+    context = {
+        'jumlah_admin' : count_admin,
+        'jumlah_user' : count_user
+    }
+    return render(request, 'homepage.html', context)
 
 def register(request):
     form = SignUpForm()
