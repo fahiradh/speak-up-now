@@ -38,10 +38,9 @@ def show_detail_laporan(request,id):
 def add_response(request,id):
     if request.method == 'POST':
         form = laporanResponseForm(request.POST)
-        id=id-1
         if form.is_valid():
             new_response = form.cleaned_data
-            response = laporanResponse.objects.get(pk=id)
+            response = laporanResponse.objects.get(laporan_user=id)
             response.admin_name = request.user.username
             response.case_name = laporan.objects.get(pk=id).case_name
             response.status_case = new_response['status_case']
