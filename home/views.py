@@ -6,10 +6,22 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from home.forms import LoginForm, SignUpForm
 from home.models import Pengguna
-
+from django.http import JsonResponse 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    list = Pengguna.objects.all()
+    count_admin = 0
+    count_user = 0
+    for i in list:
+        if i.is_konsulir == True:
+            count_admin += 1
+        elif i.is_konsulir == False and i.is_staff == False:
+            count_user += 1
+    context = {
+        'jumlah_admin' : count_admin,
+        'jumlah_user' : count_user
+    }
+    return render(request, 'homepage.html', context)
 
 def register(request):
     form = SignUpForm()
@@ -17,11 +29,16 @@ def register(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Akun telah berhasil dibuat!')
             return redirect('home:homepage')
     context = {'form': form}
     return render(request, 'register.html', context)
 
+def validate_username(request):
+    username = request.GET.get('username')
+    data = {
+        'is_taken': Pengguna.objects.filter(username=username).exists()
+    }
+    return JsonResponse(data)
 def login_user(request):
     form = LoginForm(request.POST)
     messages = None
@@ -32,7 +49,7 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 login(request, user)
-                return redirect('curhat_admin:table-curhat')
+                return redirect('/admin-page')
             elif user is not None and (user.is_konsulir == False):
                 login(request, user)
                 return redirect('home:homepage')
@@ -41,21 +58,6 @@ def login_user(request):
         else:
             messages = 'Error Validating Form'
     return render(request, 'login.html', {'form' : form, 'messages': messages})
-    # if request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     user = authenticate(request, username=username, password=password)
-    #     if user is not None:
-    #         login(request, user)
-    #         user_type = Pengguna.objects.filter(request)
-    #         if user.is_authenticated and user_type.is_konsulir == 1:
-    #             return redirect('curhat_admin:table-curhat')
-    #         elif user.is_authenticated and user_type.is_konsulir == 0:
-    #             return redirect('home:homepage')
-    #     else:
-    #         messages.info(request, 'Username atau Password salah!')
-    # context = {}
-    # return render(request, 'login.html', context)
 
 def logout_user(request):
     logout(request)
