@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'laporan',
     'laporan_admin',
     'home',
-    'user_page'
+    'user_page',
+    'admin_page'
 ]
 
 MIDDLEWARE = [
