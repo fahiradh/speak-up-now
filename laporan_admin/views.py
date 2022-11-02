@@ -30,6 +30,7 @@ def show_detail_laporan(request,id):
     context = {
         'form':form,
         'data':data,
+        'id':id
     }
     return render(request, "detail-laporan-user.html", context)
 
@@ -37,13 +38,14 @@ def show_detail_laporan(request,id):
 def add_response(request,id):
     if request.method == 'POST':
         form = laporanResponseForm(request.POST)
+        id=id-1
         if form.is_valid():
             new_response = form.cleaned_data
-            response = laporanResponse.objects.get(pk=request.POST["id"])
+            response = laporanResponse.objects.get(pk=id)
             response.admin_name = request.user.username
-            response.case_name = laporan.objects.get(pk=request.POST["id"]).case_name
+            response.case_name = laporan.objects.get(pk=id).case_name
             response.status_case = new_response['status_case']
-            response.admin_response = new_response['admin_response']
+            response.admin_response = new_response['message']
             response.save()        
             return HttpResponse(b"CREATED", status=201)
     return HttpResponseNotFound()
