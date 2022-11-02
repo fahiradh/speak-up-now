@@ -51,3 +51,5 @@ Secara umum, akun yang bisa mendaftar di Speak Up Now terbagi menjadi 2, yaitu p
    -  Melihat dan menanggapi daftar laporan yang diberikan pengguna
    -  Memproses laporan dan memberikan konsultasi
    -  Membuat akun admin baru
+
+## ![deployment](https://github.com/fahiradh/tugas-kelompok-pbp/laporan-admin/dpl.ymk.badge.svg)
