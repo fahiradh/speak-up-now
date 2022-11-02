@@ -41,7 +41,13 @@ class SignUpForm(UserCreationForm):
             }
         )
     )    
+    is_konsulir = forms.BooleanField(
+        widget = forms.CheckboxInput(),
+        required = False
+    )
 
     class Meta:
         model = Pengguna
-        fields = ('username', 'password1', 'password2', 'is_admin', 'is_user')
+        fields = ('username', 'password1', 'password2', 'is_konsulir')
+        
+
