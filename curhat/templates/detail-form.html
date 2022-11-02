@@ -33,4 +33,27 @@
         <p>{{ message }}</p>
     </div>
 </div>
+<div id="reply"></div>
+<div style="height: 5rem;"></div>
+
+<script>
+  if (typeof "{{reply}}" !== 'undefined') {
+    let reply = ''
+    reply += `
+    <div style="height: 1rem;"></div>
+    <div class="container-md d-flex flex-row" style="padding: 25px;">
+      <div class="container-sm ">
+        <div>
+          <h5>Reply from admin</h5>
+        </div>
+        <div class="top-section d-flex flex-row justify-content-between">
+            <h3>{{  reply.title }}</h3>
+        </div>
+        <p style="margin-bottom:3rem;">{{ reply.date }}</p>
+        <p>{{ reply.description }}</p>
+      </div>
+    </div>`
+    document.getElementById('reply').innerHTML = reply;
+  }
+</script>
 {% endblock %}

@@ -4,15 +4,18 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 from django.http import HttpResponse
 from . import models, forms
+from curhat_admin.models import curhatAdmin
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @csrf_exempt
+@login_required(login_url='/login')
 def add(request):
     if request.method == "POST":
         form = forms.curhatForm(request.POST)
         if form.is_valid():
             data = models.curhatDong(
+                user = request.user,
                 date = datetime.date.today(),
                 name = form.data['name'],
                 title = form.data['title'],
@@ -25,12 +28,13 @@ def add(request):
         form = forms.curhatForm()
 
     contexts = {
-        'curhat' : models.curhatDong.objects.all().values(),
+        'curhat' : models.curhatDong.objects.filter(user = request.user.id),
         'form' : form,
     }
 
     return render(request, 'riwayat-konsultasi.html', contexts)
 
+@login_required(login_url='/login')
 def show_laporan(request):
     form_gen = forms.curhatForm()
     contexts = {
@@ -40,22 +44,32 @@ def show_laporan(request):
     return render(request, 'riwayat-konsultasi.html', contexts)
 
 def riwayat_json(request):
-    riwayat = models.curhatDong.objects.all()
+    riwayat = models.curhatDong.objects.filter(user = request.user.id)
     return HttpResponse(serializers.serialize("json", riwayat), content_type="application/json")
 
+@login_required(login_url='/login')
 def delete_konsultasi(request, id):
     data = models.curhatDong.objects.get(pk=id)
     data.delete()
     return HttpResponse()
 
+@login_required(login_url='/login')
 def detail_form(request, id):
     data = models.curhatDong.objects.get(pk=id)
     if (data.contactable == "N"):
         message = "Mode: No need consultation in interactive mode"
     else:
         message = "Mode: Need consultation in interactive mode"
-    context = {
-        'data' : models.curhatDong.objects.get(pk=id),
-        'message' : message
+    try:
+        reply = curhatAdmin.objects.get(pk=id)
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+            'reply' : reply
     }
+    except:
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+        }
     return render(request, 'detail-form.html', context)

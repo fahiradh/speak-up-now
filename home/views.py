@@ -34,6 +34,7 @@ def login_user(request):
                 login(request, user)
                 return redirect('curhat_admin:table-curhat')
             elif user is not None and (user.is_konsulir == False):
+                login(request, user)
                 return redirect('home:homepage')
             else:
                 messages = 'Username atau Password salah!'
@@ -58,6 +59,4 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('home:homepage'))
-    response.delete_cookie('last_login')
-    return redirect('homepage')
+    return redirect('home:homepage')
