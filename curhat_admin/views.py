@@ -47,6 +47,7 @@ def add_reply(request, i):
             cd = form.cleaned_data
             data = curhatAdmin(
                 date = datetime.date.today(),
+                admin_name = request.user.username,
                 id = i,
                 title = cd['title'],
                 description = cd['description'],

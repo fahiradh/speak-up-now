@@ -30,7 +30,7 @@
 
 /* navbar regular css start */
 .nav-area {
-  background: #3ECC90;
+  background: #548AFF;
 }
 .site-nav {
   display: flex;
@@ -154,19 +154,25 @@ a.site-logo {
       <div class="cntr">
         <nav class="site-nav">
           <!-- site logo -->
-          <a href="#home" class="site-logo">
-            <img src="{% static 'img/speakupnow.png' %}" style="width:40%; padding: 1px">
+          <a href="/" class="site-logo">
+            <img src="{% static 'img/speakupnow.png' %}" style="width:35%; height: 35%; padding: 1px">
         </a>
   
           <!-- site menu/nav -->
           {% if request.user.is_authenticated %}
-          <ul>
+          <ul style="z-index: 1000;">
             <li><a href="/">Home</a></li>
-            <li><a href="/user-page/">Fitur</a></li>
-            <li><a href="/logout/">Logout</a></li>
+
+            {% if request.user.is_konsulir %}
+              <li><a href="/admin-page/">Fitur</a></li>
+            {% else %}
+              <li><a href="/user-page/">Fitur</a></li>
+            {% endif %}
+              <li><a href="/logout/">Logout</a></li>
+
           </ul>
           {% else %}
-          <ul>
+          <ul style="z-index: 1000;">
             <li><a href="/">Home</a></li>
             <li><a href="/user-page/">Fitur</a></li>
             <li><a href="/login/">Login</a></li>
