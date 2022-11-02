@@ -107,9 +107,10 @@
           content += `
           <div style="height: 1rem;"></div>
           <div class="container-md d-flex flex-row" style="padding: 25px;">
+            <div style="width:55px;"></div>
             <div class="container-sm ">
               <div>
-                <h5>Reply from admin</h5>
+                <h5>Reply from admin <strong>${data[i].fields.admin_name}</strong></h5>
               </div>
               <div class="top-section d-flex flex-row justify-content-between">
                   <h3>${data[i].fields.title}</h3>

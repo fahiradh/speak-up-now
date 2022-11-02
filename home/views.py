@@ -49,7 +49,7 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 login(request, user)
-                return redirect('curhat_admin:table-curhat')
+                return redirect('/admin-page')
             elif user is not None and (user.is_konsulir == False):
                 login(request, user)
                 return redirect('home:homepage')
