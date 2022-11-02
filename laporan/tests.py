@@ -8,15 +8,14 @@ class laporanTest(TestCase):
     def test_show_json(self):
         client = Client()
         response = client.get(reverse('laporan:show_json'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_show_laporan(self):
         client = Client()
         response = client.get(reverse('laporan:show_laporan'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_detail_laporan(self):
         client = Client()
         response = client.get(reverse('laporan:detail_laporan', kwargs={'id':1}))
-        self.assertEqual(response.status_code, 200)
- 
+        self.assertEqual(response.status_code, 302)

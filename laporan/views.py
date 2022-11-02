@@ -39,7 +39,7 @@ def add_laporan(request):
 
     return HttpResponseNotFound()
 
-@login_required(login_url='/')
+@login_required(login_url='/login')
 def show_laporan(request):
     form_gen = laporanForm()
     context = {
@@ -47,6 +47,7 @@ def show_laporan(request):
     }
     return render(request, 'laporan.html', context)
 
+@login_required(login_url='/login')
 def show_json(request):
     data = models.laporan.objects.filter(user = request.user.id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
@@ -56,7 +57,7 @@ def delete_report(request, id):
     data.delete()
     return HttpResponse(b"DELETED", status=201)
 
-@login_required(login_url='/')
+@login_required(login_url='/login')
 def detail_laporan(request, id):
     laporan = models.laporan.objects.get(pk=id)
     response = models.laporanResponse.objects.get(laporan_user=id)
