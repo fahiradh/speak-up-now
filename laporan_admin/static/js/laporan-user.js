@@ -11,8 +11,14 @@ function showContent() {
         <td class="text-center">${data[i].fields.case_name}</td>
         <td class="text-center">${data[i].fields.crime_place}</td>
         <td class="text-center">${chronology}</td>
-        <td class="text-center"><input type="image" src="{% static 'media/btn-view.png' %}" onclick="openDetail(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-        <td class="text-center"><input type="image" src="{% static 'media/btn-delete.png' %}" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
+        <td class="text-center">
+            <form action="/laporan-admin/details/${data[i].pk}" style="padding: 0; box-shadow: none;" method = "GET">{% csrf_token %}
+                <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
+            </form>
+        </td>
+        <td class="text-center">
+            <input type="image" src="{% static 'image/btn-delete.png' %}" onmouseover="this.src='{% static 'image/btn-delete-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-delete.png' %}';" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/>
+        </td>
     </tr>
     `;
     $('.content').html(content);
