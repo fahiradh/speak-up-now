@@ -17,7 +17,7 @@
       {% csrf_token %}
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header"> 
             <h1 class="modal-title fs-5" id="exampleModalLabel">Report</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -80,8 +80,13 @@
     </form>
 </div>
 
+<br>
 <h1 class="text-center">Speak Up Now Online Report Form</h1>
-<input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" value="Report">
+
+<br>
+<div class=text-center>
+    <input class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" value="Report">
+</div>
 
 
 <div style="height:100px;"></div>
@@ -90,11 +95,10 @@
         <table class="table table-hover rounded rounded-3 overflow-hidden">
             <thead class="table" style="background-color: #2D55D0; color: #fff;">
                 <tr>
-                    <th class="text-center" style="padding: 1rem 1rem;"></th>
+                    <th class="text-center" style="padding: 1rem 1rem;">Status</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Case Name</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Victim Name</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Crime Place</th>
-                    <th class="text-center" style="padding: 1rem 1rem;"></th>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
                 </tr>
@@ -112,24 +116,52 @@
         return fetch("{% url 'laporan:show_json' %}").then((res) => res.json())
     }
 
+    async function getResponse(){
+        return fetch("{% url 'laporan_admin:show_laporan_json' %}").then((res) => res.json())
+    }
+
+    function matchReport(response, id){
+        response.forEach((item) =>{
+            if (item.fields.laporan_user == id){
+                console.log(item.fields.status_case)
+                return item.fields.status_case
+            }
+        })
+    }
+
+    function statusCheck(status_case){
+        if (status_case == null)
+            return "PENDING"
+        if (status_case == true)
+            return "VERIFIED"
+        if (status_case == false)
+            return "REJECTED"
+    }
+
     async function refreshReport() {
-        fetch()
         console.log("pepe")
         document.getElementById("report_table").innerHTML = ""
         const report = await getReport()
-        console.log(report)
+        const response = await getResponse()
+        console.log(response)
         let htmlString = ""
         report.forEach((item) => {
         htmlString += `
         <tr style="cursor: pointer;">
-            <td class="text-center"><input type="checkbox" class="checkbox"></td>
+            <td class="text-center">` + statusCheck(matchReport(response, item.pk)) +  `</td>
             <td class="text-center">${item.fields.case_name}</td>
             <td class="text-center">${item.fields.victim_name}</td>
             <td class="text-center">${item.fields.crime_place}</td>
+            <td class="text-center">
+            <form action="/laporan/detail/${item.pk}" style="padding: 0; box-shadow: none;" method = "POST">{% csrf_token %}
+                          <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
+                        </form>
+            </td>
             <td class="text-center"><input type="image" src="{% static 'image/btn-delete.png' %}" onclick="deleteReport(${item.pk})" style="width: 30px; height: 30px; padding: 0;"/></td>
-            <td class="text-center"><a class="btn btn-primary" href="detail/${item.pk}">Details<td>
+            
         </tr>
         `;
+        
     })
     document.getElementById("report_table").innerHTML = htmlString
     console.log("pepe2")

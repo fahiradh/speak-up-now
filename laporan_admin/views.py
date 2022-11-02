@@ -7,7 +7,7 @@ from laporan_admin.forms import laporanResponseForm
 
 # Create your views here.
 def show_laporan_json(request):
-    data_laporan = laporan.objects.all()
+    data_laporan = laporanResponse.objects.all()
     return HttpResponse(serializers.serialize("json", data_laporan), content_type="application/json")
 
 def show_detail_json(request,id):

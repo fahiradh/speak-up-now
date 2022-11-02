@@ -4,7 +4,7 @@ STATUS_CHOICES= [
     ('On Process', True),
     ('Rejected', False),
     ]
-    
+
 class laporanResponseForm(forms.Form):
     status_case = forms.ChoiceField(
         # id="status",
