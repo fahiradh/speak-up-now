@@ -32,8 +32,13 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 login(request, user)
+                request.session.username = username
+                request.session.is_konsulir = True
                 return redirect('curhat_admin:table-curhat')
             elif user is not None and (user.is_konsulir == False):
+                login(request, user)
+                request.session.username = username
+                request.session.is_konsulir = False
                 return redirect('home:homepage')
             else:
                 messages = 'Username atau Password salah!'
