@@ -34,18 +34,20 @@ def show_curhat_details(request, i):
     contexts = {
         'details' : details,
         'message' : message,
-        'form' : form
+        'form' : form,
+        'id' : i
     }
     return render(request, 'curhat-details.html', contexts)
 
 @csrf_exempt
-def add_reply(request):
+def add_reply(request, i):
     form = replyCurhatForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             cd = form.cleaned_data
             data = curhatAdmin(
-                # date = datetime.date.today(),
+                date = datetime.date.today(),
+                id = i,
                 title = cd['title'],
                 description = cd['description'],
             )
@@ -61,7 +63,7 @@ def add_reply(request):
 
     return render(request, 'curhat-details.html', contexts)
 
-def reply_json(request):
+def reply_json(request, i):
     # reply_user = curhatDong.objects.get(id=i).user
-    reply = curhatAdmin.objects.all()
+    reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')

@@ -58,7 +58,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="btn-send">Send</button>
+            <button type="button" class="btn btn-primary" id="btn-send">Send</button>
           </div>
         </div>
       </div>
@@ -66,30 +66,33 @@
   </div>
 
 <script>
+  var id = "{{ id }}"
   function addForm() {
-    fetch('curhat-admin/add-reply', {
+    fetch(`/curhat-admin/add-reply/${id}`, {
       method: 'POST',
       body: new FormData(document.querySelector('#form'))
-    }, then($('#exampleModal').modal('hide')), then(showReply))
+    }).then($('#exampleModal').modal('hide')).then(showReply)
     console.log('asdf')
     return false;
   }
 
   function showReply() {
     console.log('asdf')
-      $.get('/curhat-admin/reply-json', function(data){
+      $.get(`/curhat-admin/reply-json/${id}`, function(data){
         let content = '';
         for (let i=0; i<data.length; i++){
+          date = data[i].fields.date.substr(0, 10);
           content += `
           <div style="height: 1rem;"></div>
           <div class="container-md d-flex flex-row" style="padding: 25px;">
             <div class="container-sm ">
               <div>
-                <h3>Reply from admin</h3>
+                <h5>Reply from admin</h5>
               </div>
               <div class="top-section d-flex flex-row justify-content-between">
                   <h3>${data[i].fields.title}</h3>
               </div>
+              <p style="margin-bottom:3rem;"">${date}</p>
               <p>${data[i].fields.description}</p>
             </div>
           </div>`

@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
-from django.contrib.auth.models import User
 from laporan.models import laporan
 from laporan_admin.models import laporanResponse
 from laporan_admin.forms import laporanResponseForm
@@ -29,15 +28,13 @@ def show_detail_laporan(request,id):
     form = laporanResponseForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            new_data = form.cleaned_data        
-            new_response = laporanResponse (
-                laporan_user = laporan.objects.get(pk=request.POST["id"]), # Hubungin ke laporan user
-                admin_name = request.user.username,
-                case_name = laporan.objects.get(pk=request.POST["id"]).case_name, # Hubungin ke case pelapor
-                status_case = new_data['status_case'],
-                admin_response = new_data['admin_response'],
-            )
-            new_response.save()
+            new_response = form.cleaned_data
+            response = laporanResponse.object.get(pk=request.POST["id"])
+            response.admin_name = request.user.username
+            response.case_name = laporan.objects.get(pk=request.POST["id"]).case_name
+            response.status_case = new_response['status_case']
+            response.admin_response = new_response['admin_response']
+            response.save()        
             return HttpResponse()
     else:
         new_response = laporanResponseForm()

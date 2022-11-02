@@ -18,9 +18,9 @@
           Laporan
         </div>
         <div class="card-body">
-          <h5 class="card-title">Saya mau melapor!</h5>
-          <p class="card-text">Kamu bisa melaporkan kejadian buruk yang kamu alami. Silakan menuju fitur <strong>lapor</strong>. </p>
-          <a class="btn btn-primary" href = "{% url 'laporan:show_laporan' %}"> Laporan </a>
+          <h5 class="card-title">Lihat laporan user</h5>
+          <p class="card-text">Untuk melihat rekap laporan yang dikirimkan oleh pengguna, silakan menuju fitur <strong>lapor</strong>. </p>
+          <a class="btn btn-primary" href = "{% url 'laporan_admin:show_laporan_user' %}"> Laporan </a>
         </div>
     </div>
 
@@ -29,9 +29,9 @@
           Konsultasi
         </div>
         <div class="card-body">
-          <h5 class="card-title">Saya mau konsultasi!</h5>
-          <p class="card-text">Kamu bisa konsultasi ke admin terkait apa yang kamu alami. Coba fitur <strong>konsultasi</strong> secara gratis dan mudah! </p>
-          <a class="btn btn-primary" href = "/curhat/"> Konsultasi </a>
+          <h5 class="card-title">Lihat konsultasi user</h5>
+          <p class="card-text">Untuk melihat rekap konsultasi yang dikirimkan oleh pengguna, silakan menuju fitur <strong>konsultasi</strong>.</p>
+          <a class="btn btn-primary" href = "{% url 'curhat_admin:table-curhat' %}"> Konsultasi </a>
         </div>
     </div>
 

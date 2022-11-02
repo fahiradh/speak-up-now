@@ -49,3 +49,5 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = Pengguna
         fields = ('username', 'password1', 'password2', 'is_konsulir')
+        
+
