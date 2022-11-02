@@ -51,14 +51,20 @@ def delete_konsultasi(request, id):
 
 def detail_form(request, id):
     data = models.curhatDong.objects.get(pk=id)
-    reply = curhatAdmin.objects.get(pk=id)
     if (data.contactable == "N"):
         message = "Mode: No need consultation in interactive mode"
     else:
         message = "Mode: Need consultation in interactive mode"
-    context = {
-        'data' : models.curhatDong.objects.get(pk=id),
-        'message' : message,
-        'reply' : reply
+    try:
+        reply = curhatAdmin.objects.get(pk=id)
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+            'reply' : reply
     }
+    except:
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+        }
     return render(request, 'detail-form.html', context)
