@@ -56,7 +56,7 @@ def delete_report(request, id):
 
 def detail_laporan(request, id):
     laporan = models.laporan.objects.get(pk=id)
-    response = models.laporanResponse.objects.filter(laporan_user=id)
+    response = models.laporanResponse.objects.get(laporan_user=id)
     context = {'item' : laporan,
             'response' : response
             }

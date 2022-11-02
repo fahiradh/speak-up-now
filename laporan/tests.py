@@ -15,4 +15,8 @@ class laporanTest(TestCase):
         response = client.get(reverse('laporan:show_laporan'))
         self.assertEqual(response.status_code, 200)
 
+    def test_detail_laporan(self):
+        client = Client()
+        response = client.get(reverse('laporan:detail_laporan', kwargs={'id':1}))
+        self.assertEqual(response.status_code, 200)
  
