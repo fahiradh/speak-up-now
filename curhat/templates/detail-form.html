@@ -33,7 +33,7 @@
         <p>{{ message }}</p>
     </div>
 </div>
-<div class="reply"></div>
+<div id="reply"></div>
 
 <script>
   if (typeof "{{reply}}" !== 'undefined') {
@@ -52,7 +52,7 @@
         <p>{{ reply.description }}</p>
       </div>
     </div>`
-    $('.reply').html(reply);
+    document.getElementById('reply').innerHTML = reply;
   }
 </script>
 {% endblock %}
