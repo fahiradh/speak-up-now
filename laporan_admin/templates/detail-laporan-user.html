@@ -18,7 +18,22 @@
             </svg>
         </button>
     </div>
-    <div class="container-sm content">
+    <div class="container-sm">
+        <div class="top-section d-flex flex-row justify-content-between">
+            <h3>{{ data.case_name }}</h3>
+            <input class="btn btn-primary btn-reply" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" value="Reply">
+        </div>
+        <p style="margin-bottom: 3rem;">{{ data.crime_place }}</p>
+        <p><b>Informer: </b><br>
+            {{ data.name }}</p>
+        <p><b>Contact Person: </b><br>
+            {{ data.phone_num }} / {{ data.email }}</p>
+        <p><b>Victim: </b><br>
+            {{ data.victim_name }}</p>
+        <p><b>VICTIM DESCRIPTION</b></p>
+        <p>{{ data.victim_description }}</p>
+        <p><b>CHRONOLOGY</b></p>
+        <p>{{ data.chronology }}</p>
     </div>
 </div>
 
@@ -40,19 +55,30 @@
                     </div>
             
                     <div class="form-outline mb-4">
-                        {{ form.description.label }}
+                        {{ form.message.label }}
                         <div style="height: 0.5rem;"></div>
-                        {{ form.description }}
+                        {{ form.message }}
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+                    <button type="submit" id="btn-send" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 
-<script type="text/JavaScript" src="static/js/detail-laporan-user.js"></script>
+<script>
+    var id = "{{ id }}"
+    function responseLaporan() {
+        fetch(`/laporan-admin/add-response/${id}`, {
+        method: 'POST',
+        body: new FormData(document.querySelector('#form_reply'))
+        }).then($('#exampleModal').modal('hide'))
+        return false
+    }
+
+    document.getElementById('btn-send').onclick = responseLaporan
+</script>
 {% endblock %}
