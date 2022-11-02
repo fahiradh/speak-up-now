@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 from django.http import HttpResponse
 from . import models, forms
+from curhat_admin.models import curhatAdmin
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -50,12 +51,14 @@ def delete_konsultasi(request, id):
 
 def detail_form(request, id):
     data = models.curhatDong.objects.get(pk=id)
+    reply = curhatAdmin.objects.get(pk=id)
     if (data.contactable == "N"):
         message = "Mode: No need consultation in interactive mode"
     else:
         message = "Mode: Need consultation in interactive mode"
     context = {
         'data' : models.curhatDong.objects.get(pk=id),
-        'message' : message
+        'message' : message,
+        'reply' : reply
     }
     return render(request, 'detail-form.html', context)
