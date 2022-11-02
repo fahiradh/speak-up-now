@@ -21,6 +21,7 @@ def add_laporan(request):
     if request.method == 'POST':
         form = laporanForm(request.POST)
         if form.is_valid():
+            user = request.user
             name = request.POST.get('name')
             phone_num = request.POST.get('phone_num')
             email = request.POST.get('email')
@@ -29,7 +30,7 @@ def add_laporan(request):
             victim_description = request.POST.get('victim_description')
             crime_place = request.POST.get('crime_place')
             chronology = request.POST.get('chronology')
-            new_laporan = models.laporan(name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
+            new_laporan = models.laporan(user = user,name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
                                         victim_description = victim_description, crime_place = crime_place, chronology = chronology)
             new_laporan.save()
             new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
@@ -46,7 +47,7 @@ def show_laporan(request):
     return render(request, 'laporan.html', context)
 
 def show_json(request):
-    data = models.laporan.objects.all()
+    data = models.laporan.objects.filter(user = request.user.id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def delete_report(request, id):

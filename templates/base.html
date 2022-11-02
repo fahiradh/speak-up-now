@@ -159,12 +159,21 @@ a.site-logo {
         </a>
   
           <!-- site menu/nav -->
+          {% if request.user.is_authenticated %}
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/user-page/">Fitur</a></li>
+            <li><a></a></li>
+            <li><a href="/logout/">Logout</a></li>
+          </ul>
+          {% else %}
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/user-page/">Fitur</a></li>
             <li><a href="/login/">Login</a></li>
             <li><a href="/register/">Sign Up</a></li>
           </ul>
+          {% endif %}
   
           <!-- nav-toggler for mobile version only -->
           <button class="nav-toggler">
