@@ -39,6 +39,7 @@ def add_laporan(request):
 
     return HttpResponseNotFound()
 
+@login_required(login_url='/')
 def show_laporan(request):
     form_gen = laporanForm()
     context = {
@@ -55,6 +56,7 @@ def delete_report(request, id):
     data.delete()
     return HttpResponse(b"DELETED", status=201)
 
+@login_required(login_url='/')
 def detail_laporan(request, id):
     laporan = models.laporan.objects.get(pk=id)
     response = models.laporanResponse.objects.get(laporan_user=id)
