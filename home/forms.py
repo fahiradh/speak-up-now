@@ -1,7 +1,7 @@
 from django import forms
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from home.models import User
+from home.models import Pengguna
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -41,7 +41,11 @@ class SignUpForm(UserCreationForm):
             }
         )
     )    
+    is_konsulir = forms.BooleanField(
+        widget = forms.CheckboxInput(),
+        required = False
+    )
 
     class Meta:
-        model = User
-        fields = ('username', 'password1', 'password2', 'is_admin', 'is_user')
+        model = Pengguna
+        fields = ('username', 'password1', 'password2', 'is_konsulir')
