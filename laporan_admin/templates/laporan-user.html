@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'css/style-laporan-user.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {% endblock meta %}
 
 {% block content %}
@@ -15,10 +16,10 @@
             <thead class="table" style="background-color: #2D55D0; color: #fff;">
                 <tr>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
-                    <th class="text-center" style="padding: 1rem 1rem;">Name</th>
+                    <th class="text-center" style="padding: 1rem 1rem;">Status</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Case Name</th>
+                    <th class="text-center" style="padding: 1rem 1rem;">Victim Name</th>
                     <th class="text-center" style="padding: 1rem 1rem;">Crime Place</th>
-                    <th class="text-center" style="padding: 1rem 1rem;">Chronology</th>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
                     <th class="text-center" style="padding: 1rem 1rem;"></th>
                 </tr>
@@ -29,5 +30,60 @@
     </div>
 </div>
 
-<script type="text/JavaScript" src="static/js/laporan-user.js"></script>
+<script>
+    function showContent() {
+        $.get('/laporan-admin/json/', function(data){
+        let content = '';
+        for (let i=0; i<data.length; i++){
+        let status = ""
+        if (data[i].status_case == null)
+            status = "PENDING"
+        else if (data[i].status_case == true)
+            status = "VERIFIED"
+        else if (data[i].status_case == false)
+            status = "REJECTED"
+
+        let chronology = `${data[i].fields.chronology}`
+        chronology = chronology.slice(0,40)+ "..."
+        content += `
+        <tr style="cursor: pointer;">
+            <td class="text-center"><input type="checkbox" class="checkbox"></td>
+            <td class="text-center">${status}</td>
+            <td class="text-center">${data[i].fields.case_name}</td>
+            <td class="text-center">${data[i].fields.crime_place}</td>
+            <td class="text-center">${chronology}</td>
+            <td class="text-center">
+                <form action="/laporan-admin/detail/${data[i].pk}" style="padding: 0; box-shadow: none;" method = "GET">{% csrf_token %}
+                    <input type="image" src="{% static 'image/btn-eye.png' %}" onmouseover="this.src='{% static 'image/btn-eye-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-eye.png' %}';" style="width: 30px; height: 30px; padding:0;">
+                </form>
+            </td>
+            <td class="text-center">
+                <input type="image" src="{% static 'image/btn-delete.png' %}" onmouseover="this.src='{% static 'image/btn-delete-hover.png' %}';" onmouseout="this.src='{% static 'image/btn-delete.png' %}';" onclick="deleteRow(${data[i].pk})" style="width: 30px; height: 30px; padding: 0;"/>
+            </td>
+        </tr>
+        `;
+        $('.content').html(content);
+        }
+    })
+    }
+
+    function deleteRow(id) {
+        showContent();
+        $.ajax({
+            type: 'DELETE',
+            url: `/laporan-admin/delete/${id}`,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            success: function(data) {
+                $.get("/laporan-admin/json", showContent);
+            },
+        });
+        showContent();
+    }
+
+    $(document).ready( function(){
+    $.get("/laporan-admin/json/", showContent);
+    })
+</script>
 {% endblock %}

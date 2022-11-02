@@ -1,16 +1,16 @@
 from django import forms
 
-STATUS_CHOICES= [
-    ('On Process', True),
-    ('Rejected', False),
-    ]
-
 class laporanResponseForm(forms.Form):
     status_case = forms.ChoiceField(
         # id="status",
         label = "Status Pelaporan",
         required= True,
-        widget = forms.RadioSelect(choices=STATUS_CHOICES)
+        choices= [
+        (None, '-Select Status-'),
+        (True , 'On Process'),
+        (False , 'Rejected'),
+        ],
+        widget = forms.Select(attrs = {'class' : 'select', 'class' : 'form-control'})
     )
 
     message = forms.CharField(
