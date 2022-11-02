@@ -162,9 +162,12 @@ a.site-logo {
           {% if request.user.is_authenticated %}
           <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/user-page/">Fitur</a></li>
-            <li><a></a></li>
-            <li><a href="/logout/">Logout</a></li>
+            {% if request.user.is_konsulir %}
+              <li><a href="/admin-page/">Fitur</a></li>
+            {% else %}
+              <li><a href="/user-page/">Fitur</a></li>
+            {% endif %}
+              <li><a href="/logout/">Logout</a></li>
           </ul>
           {% else %}
           <ul>

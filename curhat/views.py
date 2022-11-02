@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 from django.http import HttpResponse
 from . import models, forms
+from curhat_admin.models import curhatAdmin
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -54,8 +55,16 @@ def detail_form(request, id):
         message = "Mode: No need consultation in interactive mode"
     else:
         message = "Mode: Need consultation in interactive mode"
-    context = {
-        'data' : models.curhatDong.objects.get(pk=id),
-        'message' : message
+    try:
+        reply = curhatAdmin.objects.get(pk=id)
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+            'reply' : reply
     }
+    except:
+        context = {
+            'data' : models.curhatDong.objects.get(pk=id),
+            'message' : message,
+        }
     return render(request, 'detail-form.html', context)
