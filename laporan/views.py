@@ -16,13 +16,11 @@ from django.contrib.auth.models import User
 from . import models
 from .forms import laporanForm
 from laporan_admin import models
-from home import models
 
 def add_laporan(request):
-    form = laporanForm(request.POST or None)
     if request.method == 'POST':
+        form = laporanForm(request.POST)
         if form.is_valid():
-            user_id = request.COOKIES['user']
             name = request.POST.get('name')
             phone_num = request.POST.get('phone_num')
             email = request.POST.get('email')
@@ -48,7 +46,7 @@ def show_laporan(request):
     return render(request, 'laporan.html', context)
 
 def show_json(request):
-    data = models.laporan.objects
+    data = models.laporan.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def delete_report(request, id):
