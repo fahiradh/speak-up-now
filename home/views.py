@@ -79,9 +79,6 @@ def logout_user(request):
     logout(request)
     return redirect('home:homepage')
 
-userlist = Pengguna.objects.all()
-print(userlist)
-
 def userdetail(request):
     data = Pengguna.objects.all()
     jsondata = serializers.serialize("json", data)
