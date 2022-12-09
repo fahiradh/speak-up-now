@@ -4,11 +4,13 @@ from curhat_admin.forms import replyCurhatForm
 from django.http import HttpResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import datetime
 
 from curhat_admin.models import curhatAdmin
 
 # Create your views here.
+@login_required(login_url='/login')
 def show_table_curhat(request):
     return render(request, 'table-curhat.html')
 
@@ -24,6 +26,7 @@ def delete_json(request, i):
         
     return HttpResponse('')
 
+@login_required(login_url='/login')
 def show_curhat_details(request, i):
     form = replyCurhatForm()
     details = curhatDong.objects.get(id=i)  
