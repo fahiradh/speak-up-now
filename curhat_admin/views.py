@@ -88,7 +88,7 @@ def add_reply_flutter(request):
         "success": "Reply berhasil terkirim!",
     })
     
-def delete_json(request, i):
+def delete_json_flutter(request, i):
     obj = curhatDong.objects.get(id=i)
 
     try:
@@ -101,5 +101,3 @@ def delete_json(request, i):
         return JsonResponse({
         "success": "Konsultasi terhapus!",
     })
-        
-    return HttpResponse('')
