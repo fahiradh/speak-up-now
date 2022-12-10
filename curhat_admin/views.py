@@ -1,7 +1,8 @@
+import json
 from django.shortcuts import render, redirect
 from curhat.models import curhatDong
 from curhat_admin.forms import replyCurhatForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -71,11 +72,10 @@ def reply_json(request, i):
     reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
 
-@csrf_exempt
 def add_reply_flutter(request):
     body_unicode = request.body.decode('utf-8')
     data = json.loads(body_unicode)
-    reply = CurhatAdmin(**data)
+    reply = curhatAdmin(**data)
 
     try:
         reply.save()
