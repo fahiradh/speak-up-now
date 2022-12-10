@@ -81,6 +81,4 @@ def logout_user(request):
 
 def userdetail(request):
     data = Pengguna.objects.all()
-    jsondata = serializers.serialize("json", data)
-    loadObject = json.loads(jsondata)
-    return HttpResponse(json.dumps(loadObject))
+    return HttpResponse(serializers.serialize('json', data), content_type='applicatoin/json')
