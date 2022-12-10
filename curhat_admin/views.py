@@ -70,3 +70,20 @@ def add_reply(request, i):
 def reply_json(request, i):
     reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
+
+@csrf_exempt
+def add_reply_flutter(request, i):
+    body_unicode = request.body.decode('utf-8')
+    data = json.loads(body_unicode)
+    reply = CurhatAdmin(**data)
+
+    try:
+        reply.save()
+    except:
+        return JsonResponse({
+        "success": "Error"
+    })
+    else:
+        return JsonResponse({
+        "success": "Reply berhasil terkirim!",
+    })
