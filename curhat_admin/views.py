@@ -72,7 +72,6 @@ def reply_json(request, i):
     reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
 
-@csrf_exempt
 def add_reply_flutter(request):
     body_unicode = request.body.decode('utf-8')
     data = json.loads(body_unicode)
