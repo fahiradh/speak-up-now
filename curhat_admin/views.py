@@ -87,3 +87,19 @@ def add_reply_flutter(request):
         return JsonResponse({
         "success": "Reply berhasil terkirim!",
     })
+    
+def delete_json(request, i):
+    obj = curhatDong.objects.get(id=i)
+
+    try:
+        obj.delete()
+    except:
+        return JsonResponse({
+        "success": "Error"
+    })
+    else:
+        return JsonResponse({
+        "success": "Konsultasi terhapus!",
+    })
+        
+    return HttpResponse('')
