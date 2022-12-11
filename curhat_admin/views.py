@@ -74,21 +74,26 @@ def reply_json(request, i):
 
 @csrf_exempt
 def add_reply_flutter(request):
-    
-    body_unicode = request.body.decode('utf-8')
-    data = JSON.loads(body_unicode)
-    reply = curhatAdmin(**data)
+    if request.method == "POST":
+        data = JSON.loads(request.body)
 
-    try:
-        reply.save()
-    except:
-        return JsonResponse({
-        "success": "Error"
-    })
-    else:
-        return JsonResponse({
-        "success": "Reply berhasil terkirim!",
-    })
+        reply = curhatAdmin(admin_name = data["admin_name"],
+                            date = data["date"],
+                            title = data["title"],
+                            description = data["description"],
+                            id = data["pk"],
+        )
+
+        try:
+            reply.save()
+        except:
+            return JsonResponse({
+            "success": "Error"
+        })
+        else:
+            return JsonResponse({
+            "success": "Reply berhasil terkirim!",
+        })
     
 @csrf_exempt
 def delete_json_flutter(request, i):
