@@ -54,14 +54,14 @@ def add_response(request,id):
     return HttpResponseNotFound()
 
 def response_json(request, id):
-    data_response = laporanResponse.objects.get(laporan_user=id)
+    data_response = laporanResponse.objects.filter(laporan_user=id)
     return HttpResponse(serializers.serialize("json", data_response), content_type="application/json")
 
 @csrf_exempt
 def add_response_flutter(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        response = laporanResponse.objects.filter(laporan_user=data['pk'])
+        response = laporanResponse.objects.get(laporan_user=data['pk'])
         response.admin_name = request.user.username
         response.case_name = laporan.objects.get(pk=id).case_name
         response.status_case = data['status_case']
