@@ -43,7 +43,6 @@ def validate_username(request):
     }
     return JsonResponse(data)
 
-@csrf_exempt
 def login_user(request):
     form = LoginForm(request.POST)
     messages = None
@@ -54,23 +53,12 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 auth_login(request, user)
-                return JsonResponse({
-                    "status":True,
-                    "message": "Succesfully Logged In as Administrator!"
-                }, status=200)
+                return redirect('admin_page:show_admin_page')
             elif user is not None and (user.is_konsulir == False):
                 auth_login(request, user)
-                JsonResponse({
-                    "status":True,
-                    "message": "Succesfully Logged In as Administrator!"
-                }, status=200)
                 return redirect('home:homepage')
             else:
                 messages = 'Username atau Password salah!'
-                JsonResponse({
-                "status": False,
-                "message": "Failed to Login, check your email/password."
-                }, status=401)
         else:
             messages = 'Error Validating Form'
     return render(request, 'login.html', {'form' : form, 'messages': messages})

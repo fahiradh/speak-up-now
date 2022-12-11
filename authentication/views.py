@@ -2,11 +2,33 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from home.forms import LoginForm, SignUpForm
+
+@csrf_exempt
+def register(request):
+    form = SignUpForm()
+    if form.is_valid():
+        form.save()
+        return JsonResponse(
+            {
+                "status": True,
+                "message": "Registration success!",
+            }, status = 200
+        )
+    else:
+        return JsonResponse (
+            {
+                "status": False,
+                "message": "Registration failed!",
+                "details": form.errors
+            }, status= 400
+        )
 
 @csrf_exempt
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    form = LoginForm(request.POST)
+    username = form.data.get('username')
+    password = form.data.get('username')
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
@@ -26,5 +48,5 @@ def login(request):
     else:
         return JsonResponse({
         "status": False,
-        "message": "Failed to Login, check your email/password."
+        "message": "Failed to Login, check your password."
         }, status=401)
