@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'user_page',
     'admin_page',
     'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'project_django.urls'
@@ -154,8 +156,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'home.Pengguna'
 
-# CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = '*'
 # CORS_ALLOW_CREDENTIALS = True
 
 # CSRF_COOKIE_SECURE = True
