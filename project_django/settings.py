@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'user_page',
     'admin_page',
     'authentication',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -157,10 +156,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'home.Pengguna'
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = '*'
-# CORS_ALLOW_CREDENTIALS = True
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SAMESITE = 'None'
-# SESSION_COOKIE_SAMESITE = 'None'
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
