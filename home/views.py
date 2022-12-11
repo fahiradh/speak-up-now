@@ -46,14 +46,13 @@ def validate_username(request):
 @csrf_exempt
 def login_user(request):
     form = LoginForm(request.POST)
+
     messages = None
     if request.method == 'POST':
         if form.is_valid():
             username= form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            data = (username, password)
-            print(data)
-            print(Pengguna.username)
+
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 auth_login(request, user)
@@ -79,16 +78,15 @@ def userdetail(request):
     form = LoginForm(request.POST) 
     username= form.data.get('username')
     password = form.data.get('password')
-    data = (username, password)
+
     user = authenticate(username= username, password=password)
-    print(data)
     if user is not None:
         if user.is_active:
             auth_login(request, user)
             return JsonResponse({
                 "status": True,
                 "message": "Successfully Logged In!",
-                "data": data
+                "username": username
             }, status= 200)
 
         else:
