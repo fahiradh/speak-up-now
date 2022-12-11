@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'user_page',
     'admin_page',
     'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
