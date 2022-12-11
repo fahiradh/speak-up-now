@@ -13,6 +13,6 @@ urlpatterns = [
     path('response/json/', show_response_json, name='show_response_json'),
     path('delete/<int:id>', delete_laporan, name='delete_laporan'),
     path('response/<int:id>', response_json, name='response_json'),
-    path('add-response-flutter/', add_response_flutter, name='add_response_flutter'),
+    path('add-response-flutter', add_response_flutter, name='add_response_flutter'),
     path('delete-flutter/<int:id>', delete_laporan_flutter, name='delete_laporan_flutter'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

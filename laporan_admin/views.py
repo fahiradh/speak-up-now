@@ -64,7 +64,7 @@ def add_response_flutter(request):
         response = laporanResponse.objects.get(laporan_user=data['pk'])
         response.admin_name = request.user.username
         response.case_name = laporan.objects.get(pk=id).case_name
-        response.status_case = data['status_case']
+        response.status_case = (data['status_case'] == "true")
         response.admin_response = data['message']
 
     try:
