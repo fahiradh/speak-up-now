@@ -76,7 +76,7 @@ def userdetail(request):
     form = LoginForm(request.POST)
     username = form.data.get('username')
     password = form.data.get('password')
-    data = Pengguna.objects.get(username=username, password=password).pk
+    data = (username, password)
     return JsonResponse({
         "status": True,
         "data": serializers.serialize('json',data)
