@@ -73,11 +73,35 @@ def logout_user(request):
     return redirect('home:homepage')
 
 def userdetail(request):
-    form = LoginForm(request.POST)
-    username = form.data.get('username')
-    password = form.data.get('password')
-    data = (username, password)
-    return JsonResponse({
-        "status": True,
-        "data": serializers.serialize('json',data)
-    }, status= 200)
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        if user.is_active:
+            auth_login(request, user)
+            return JsonResponse({
+                "status": True,
+                "message": "Successfully Logged In!",
+                "data": (username, password)
+            }, status= 200)
+
+        else:
+            return JsonResponse({
+            "status": False,
+            "message": "Failed to Login, Account Disabled."
+            }, status=401)
+
+    else:
+        return JsonResponse({
+        "status": False,
+        "message": "Failed to Login, check your password."
+        }, status=401)
+    # form = LoginForm(request.POST)
+    # username = form.data.get('username')
+    # password = form.data.get('password')
+    # data = (username, password)
+    # return JsonResponse({
+    #     "status": True,
+    #     "data": serializers.serialize('json',data)
+    # }, status= 200)
