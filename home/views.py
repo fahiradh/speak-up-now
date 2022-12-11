@@ -68,5 +68,11 @@ def logout_user(request):
     return redirect('home:homepage')
 
 def userdetail(request):
-    data = Pengguna.objects.all()
-    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+    form = LoginForm(request.POST)
+    username = form.data.get('username')
+    password = form.data.get('password')
+    data = Pengguna.objects.get(username=username, password=password).pk
+    return JsonResponse({
+        "status": True,
+        "data": data
+    }, status= 200)
