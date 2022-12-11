@@ -77,7 +77,7 @@ def add_reply_flutter(request):
     if request.method == "POST":
         data = JSON.loads(request.body)
 
-        reply = curhatAdmin(admin_name = data["adminName"],
+        reply = curhatAdmin(
                             date = data["date"],
                             title = data["title"],
                             description = data["description"],
