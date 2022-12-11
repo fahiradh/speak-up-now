@@ -1,4 +1,4 @@
-import json
+import json as JSON
 from django.shortcuts import render, redirect
 from curhat.models import curhatDong
 from curhat_admin.forms import replyCurhatForm
@@ -74,8 +74,9 @@ def reply_json(request, i):
 
 @csrf_exempt
 def add_reply_flutter(request):
+    
     body_unicode = request.body.decode('utf-8')
-    data = json.loads(body_unicode)
+    data = JSON.loads(body_unicode)
     reply = curhatAdmin(**data)
 
     try:
