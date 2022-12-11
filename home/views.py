@@ -9,7 +9,6 @@ from home.models import Pengguna
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-import json
 
 def homepage(request):
     list = Pengguna.objects.all()
@@ -74,6 +73,7 @@ def logout_user(request):
     logout(request)
     return redirect('home:homepage')
 
+@csrf_exempt
 def userdetail(request):
     form = LoginForm(request.POST) 
     username= form.data.get('username')
@@ -100,11 +100,3 @@ def userdetail(request):
         "status": False,
         "message": "Failed to Login, check your password."
         }, status=401)
-    # form = LoginForm(request.POST)
-    # username = form.data.get('username')
-    # password = form.data.get('password')
-    # data = (username, password)
-    # return JsonResponse({
-    #     "status": True,
-    #     "data": serializers.serialize('json',data)
-    # }, status= 200)
