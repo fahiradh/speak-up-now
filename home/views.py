@@ -43,6 +43,7 @@ def validate_username(request):
     }
     return JsonResponse(data)
 
+@csrf_exempt
 def login_user(request):
     form = LoginForm(request.POST)
     messages = None
@@ -59,6 +60,10 @@ def login_user(request):
                 return redirect('home:homepage')
             else:
                 messages = 'Username atau Password salah!'
+                JsonResponse({
+                "status": False,
+                "message": "Failed to Login, check your email/password."
+                }, status=401)
         else:
             messages = 'Error Validating Form'
     return render(request, 'login.html', {'form' : form, 'messages': messages})
@@ -74,5 +79,5 @@ def userdetail(request):
     data = Pengguna.objects.get(username=username, password=password).pk
     return JsonResponse({
         "status": True,
-        "data": data
+        "data": serializers.serialize('json',data)
     }, status= 200)
