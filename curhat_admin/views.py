@@ -78,7 +78,7 @@ def add_reply_flutter(request):
         data = JSON.loads(request.body)
 
         reply = curhatAdmin(
-                            date = data["date"],
+                            date = datetime.date.today(),
                             title = data["title"],
                             description = data["description"],
                             id = data["pk"],
