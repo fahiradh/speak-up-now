@@ -51,10 +51,13 @@ def login_user(request):
         if form.is_valid():
             username= form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            data = (username, password)
+            print(data)
+            print(Pengguna.username)
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
                 auth_login(request, user)
-                return redirect('admin_page:show_admin_page')
+                return redirect('home:homepage')
             elif user is not None and (user.is_konsulir == False):
                 auth_login(request, user)
                 return redirect('home:homepage')
@@ -73,17 +76,19 @@ def logout_user(request):
     return redirect('home:homepage')
 
 def userdetail(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-
+    form = LoginForm(request.POST) 
+    username= form.data.get('username')
+    password = form.data.get('password')
+    data = (username, password)
+    user = authenticate(username= username, password=password)
+    print(data)
     if user is not None:
         if user.is_active:
             auth_login(request, user)
             return JsonResponse({
                 "status": True,
                 "message": "Successfully Logged In!",
-                "data": (username, password)
+                "data": data
             }, status= 200)
 
         else:
