@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from home.forms import LoginForm, SignUpForm
-
+from home.models import Pengguna
 @csrf_exempt
 def register(request):
     form = SignUpForm()
@@ -33,10 +33,12 @@ def login(request):
     if user is not None:
         if user.is_active:
             auth_login(request, user)
+            userId = Pengguna.objects.get(username = username).pk
             # Redirect to a success page.
             return JsonResponse({
             "status": True,
-            "message": "Successfully Logged In!"
+            "message": "Successfully Logged In!",
+            "data": userId
             # Insert any extra data if you want to pass data to Flutter
             }, status=200)
         else:
