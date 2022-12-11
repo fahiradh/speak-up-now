@@ -72,6 +72,7 @@ def reply_json(request, i):
     reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
 
+@csrf_exempt
 def add_reply_flutter(request):
     body_unicode = request.body.decode('utf-8')
     data = json.loads(body_unicode)
@@ -88,6 +89,7 @@ def add_reply_flutter(request):
         "success": "Reply berhasil terkirim!",
     })
     
+@csrf_exempt
 def delete_json_flutter(request, i):
     obj = curhatDong.objects.get(id=i)
 
