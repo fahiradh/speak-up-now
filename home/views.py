@@ -75,6 +75,7 @@ def logout_user(request):
 
 @csrf_exempt
 def userdetail(request):
+    data = {}
     form = LoginForm(request.POST) 
     username= form.data.get('username')
     password = form.data.get('password')
@@ -83,11 +84,9 @@ def userdetail(request):
     if user is not None:
         if user.is_active:
             auth_login(request, user)
-            return JsonResponse({
-                "status": True,
-                "message": "Successfully Logged In!",
-                "username": username
-            }, status= 200)
+            data['username'] = user.username
+            data['is_konsulir'] = user.is_konsulir
+            return JsonResponse(data, status= 200)
 
         else:
             return JsonResponse({
