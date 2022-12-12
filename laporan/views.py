@@ -19,6 +19,7 @@ from laporan_admin import models
 from django.views.decorators.csrf import csrf_exempt
 import json as JSON
 
+@csrf_exempt
 def add_laporan(request):
     if request.method == 'POST':
         form = laporanForm(request.POST)
@@ -26,7 +27,7 @@ def add_laporan(request):
             user = request.user
             name = request.POST['name']
             phone_num = request.POST['phone_num']
-            email = request.POST['email']
+            email = request.POST    ['email']
             case_name = request.POST['case_name']
             victim_name = request.POST['victim_name']
             victim_description = request.POST['victim_description']
@@ -86,7 +87,7 @@ def add_laporan_flutter(request):
                             victim_name = data['victim_name'],
                             victim_description = data['victim_description'], 
                             crime_place = data['crime_place'], 
-                            chronology = data['chronology']
+                            chronology = data['chronology'],
         )
 
         try:
