@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -73,3 +74,43 @@ def detail_form(request, id):
             'message' : message,
         }
     return render(request, 'detail-form.html', context)
+
+@csrf_exempt
+def add_konsultasi_flutter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        consultation = models.curhatDong(
+                    user =  request.user,
+                    date = datetime.date.today(),
+                    title = data["title"],
+                    description = data["description"],
+                    contactable = data['contactable'],
+                    id = data["pk"],
+        )
+        
+
+        try:
+            consultation.save()
+        except:
+            return JsonResponse({
+            "success": "Error"
+        })
+        else:
+            return JsonResponse({
+            "success": "Konsultasi berhasil disimpan!",
+        })
+
+@csrf_exempt
+def delete_json_flutter(request, i):
+    obj = models.curhatDong.objects.get(id=i)
+
+    try:
+        obj.delete()
+    except:
+        return JsonResponse({
+        "success": "Error"
+    })
+    else:
+        return JsonResponse({
+        "success": "Konsultasi terhapus!",
+    })
