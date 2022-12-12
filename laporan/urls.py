@@ -8,5 +8,6 @@ urlpatterns = [
     path('detail/<int:id>', views.detail_laporan, name='detail_laporan'),
     path('add-laporan/', views.add_laporan, name = 'add_laporan'),
     path('json/', views.show_json, name='show_json'),
-    path('delete/<int:id>', views.delete_report, name='delete_report')
+    path('delete/<int:id>', views.delete_report, name='delete_report'),
+    path('add-laporan-flutter/', views.add_laporan_flutter, name = 'add_laporan_flutter')
 ]
