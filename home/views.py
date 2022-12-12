@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
@@ -9,6 +8,7 @@ from home.models import Pengguna
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+import json
 
 def homepage(request):
     list = Pengguna.objects.all()
@@ -37,36 +37,31 @@ def register(request):
 
 @csrf_exempt
 def register_ajax(request):
-    form = SignUpForm(request.POST)
-    data = {}
-    if request.method == "POST":
-
-        username = form.data.get('username')
-        password1 = form.data.get('password1')
-        password2 = form.data.get('password2')
-        administrator = form.data.get('is_konsulir')
-
-        if password1 != password2:
-            return JsonResponse({
-                'status': False,
-                'message': "Password Didn't Match",
-            }, status= 401)
-        form.save()
+    if request.method == 'POST':
+        data = json.loads(request.body)
         
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
+        is_konsulir = data['is_konsulir']
+
+        newUser = SignUpForm(
+            username = username,
+            password1 = password1,
+            password2 = password2,
+            is_konsulir = is_konsulir,
+        )
+        newUser.save()
         return JsonResponse({
-            'status': True,
-            'message': "Account has been Successfully Registered"
-        }, status=200)
+            "status": True,
+            "message": "Registration Success!"
+        }, status= 200)
     else:
         return JsonResponse({
-                'status': False,
-                'message': "Registration Not Valid!",
-            }, status= 401)
+            "status": False,
+            "message": "Registration Failed!"
+        }, status=401)
             
-
-
-
-
 def validate_username(request):
     username = request.GET.get('username')
     data = {
@@ -135,4 +130,17 @@ def userdetail(request):
         return JsonResponse({
         "status": False,
         "message": "Failed to Login, check your password."
+        }, status=401)
+
+def logout_flutter(request):
+    try:
+        logout(request)
+        return JsonResponse({
+            "status": True,
+            "message": "Successfully Logged Out!"
+        }, status= 200)
+    except:
+        return JsonResponse({
+            "status": False,
+            "message": "Failed to Logout"
         }, status=401)
