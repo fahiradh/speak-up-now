@@ -132,6 +132,7 @@ def userdetail(request):
         "message": "Failed to Login, check your password."
         }, status=401)
 
+@csrf_exempt
 def logout_flutter(request):
     try:
         logout(request)
