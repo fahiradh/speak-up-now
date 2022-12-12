@@ -57,11 +57,13 @@ def show_laporan(request):
 @login_required(login_url='/login')
 def show_json(request):
     data = models.laporan.objects.filter(user = request.user.id)
+    print(data)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def delete_report(request, id):
     data = models.laporan.objects.get(pk=id)
     data.delete()
+    print(id)
     return HttpResponse(b"DELETED", status=201)
 
 @login_required(login_url='/login')
@@ -77,7 +79,7 @@ def detail_laporan(request, id):
 def add_laporan_flutter(request):
     if request.method == "POST":
         data = JSON.loads(request.body)
-
+        user = models.laporan.objects.filter(user = data['id'])
         laporan = models.laporan(
                             user = request.user,
                             name = data['name'], 
@@ -87,7 +89,7 @@ def add_laporan_flutter(request):
                             victim_name = data['victim_name'],
                             victim_description = data['victim_description'], 
                             crime_place = data['crime_place'], 
-                            chronology = data['chronology'],
+                            chronology = data['chronology'],    
         )
 
         try:
