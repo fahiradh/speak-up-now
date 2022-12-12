@@ -3,14 +3,13 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from . import models, forms
 from curhat_admin.models import curhatAdmin
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @csrf_exempt
-@login_required(login_url='/login')
 def add(request):
     if request.method == "POST":
         form = forms.curhatForm(request.POST)
@@ -81,10 +80,10 @@ def add_konsultasi_flutter(request):
         form = forms.curhatForm(request.POST)
         if form.is_valid():
             user = request.user
-            date = datetime.date.today(),
-            name = request.POST['name'],
-            title = request.POST['title'],
-            description = request.POST['description'],
+            date = datetime.date.today()
+            name = request.POST['name']
+            title = request.POST['title']
+            description = request.POST['description']
             contactable = request.POST['contactable']
 
             new_laporan = models.curhatDong(user = user, date = date, name = name, title = title, description = description, contactable = contactable)
