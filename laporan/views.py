@@ -69,31 +69,29 @@ def detail_laporan(request, id):
     return render(request, 'laporan-detail.html', context)
 
 @csrf_exempt
-def add_laporan_flutter(request):
-    print("halo")
-    user = request.user
-    name = request.POST.get('name')
-    phone_num = request.POST.get('phone_num')
-    email = request.POST.get('email')
-    case_name = request.POST.get('case_name')
-    victim_name = request.POST.get('victim_name')
-    victim_description = request.POST.get('victim_description')
-    crime_place = request.POST.get('crime_place')
-    chronology = request.POST.get('chronology')
-    new_laporan = models.laporan(user = user,name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
-                                        victim_description = victim_description, crime_place = crime_place, chronology = chronology)
-            
-    new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
-    try:
-        new_laporan.save()
-        new_response.save()
-    except:
-        return JsonResponse({
-        "success": "Error"
-        })
-    else:
-        return JsonResponse({
-        "success": "Reply berhasil terkirim!",
-        })
+def add_reply_flutter(request):
+    if request.method == "POST":
+        data = JSON.loads(request.body)
 
-        
+        laporan = models.laporan(
+                            user = request.user,
+                            name = data['name'], 
+                            phone_num = data['phone_num'], 
+                            email = data['email'], 
+                            case_name = data['case_name'], 
+                            victim_name = data['victim_name'],
+                            victim_description = data['victim_description'], 
+                            crime_place = data['crime_place'], 
+                            chronology = data['chronology']
+        )
+
+        try:
+            laporan.save()
+        except:
+            return JsonResponse({
+            "success": "Error"
+        })
+        else:
+            return JsonResponse({
+            "success": "Reply berhasil terkirim!",
+        })
