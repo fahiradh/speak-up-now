@@ -9,6 +9,8 @@
 {% endblock meta %}
 
 {% block content %}
+<h1 class="text-center">Speak Up Now Online Report Summary</h1>
+
 <div style="height:100px;"></div>
 <div class="container-sm">
     <div class="table-responsive-md">
@@ -36,12 +38,12 @@
         let content = '';
         for (let i=0; i<data.length; i++){
         let status = ""
-        if (data[i].status_case == null)
-            status = "PENDING"
-        else if (data[i].status_case == true)
+        if (data[i].status_case == true)
             status = "VERIFIED"
         else if (data[i].status_case == false)
             status = "REJECTED"
+        else if (data[i].status_case == null)
+            status = "PENDING"
 
         let chronology = `${data[i].fields.chronology}`
         chronology = chronology.slice(0,40)+ "..."
