@@ -77,27 +77,23 @@ def detail_form(request, id):
 
 @csrf_exempt
 def add_konsultasi_flutter(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        consultation = models.curhatDong(
-                    user =  request.user,
-                    date = datetime.date.today(),
-                    title = data["title"],
-                    description = data["description"],
-                    contactable = data['contactable'],
-                    id = data["pk"],
-        )
-        
+    if request.method == 'POST':
+        form = forms.curhatForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            date = datetime.date.today(),
+            name = request.POST['name'],
+            title = request.POST['title'],
+            description = request.POST['description'],
+            contactable = request.POST['contactable']
 
-        try:
-            consultation.save()
-        except:
-            return JsonResponse({
-            "success": "Error"
+            new_laporan = models.curhatDong(user = user, date = date, name = name, title = title, description = description, contactable = contactable)
+            new_laporan.save()
+        return JsonResponse({
+            "success": "Reply berhasil terkirim!"
         })
-        else:
-            return JsonResponse({
-            "success": "Konsultasi berhasil disimpan!",
+    return JsonResponse({
+            "success": "Error",
         })
 
 @csrf_exempt
