@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from home.forms import LoginForm, SignUpForm
+from forms import LoginForm, SignUpForm
 from home.models import Pengguna
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -38,7 +37,7 @@ def register(request):
 
 @csrf_exempt
 def register_ajax(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         data = json.loads(request.body)
         print(data)
         username = data['username']
@@ -62,8 +61,7 @@ def register_ajax(request):
             "status": False,
             "message": "Registration Failed!"
         }, status=401)
-
-@csrf_exempt            
+            
 def validate_username(request):
     username = request.GET.get('username')
     data = {
