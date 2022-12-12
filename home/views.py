@@ -37,7 +37,6 @@ def register(request):
 
 @csrf_exempt
 def register_ajax(request):
-    print(request.body)
     if request.method == 'POST':
         data = json.loads(request.body)
         username = data['username']
