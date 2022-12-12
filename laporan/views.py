@@ -1,7 +1,7 @@
 from pyexpat import model
 from urllib import response
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.core import serializers
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -16,6 +16,8 @@ from django.contrib.auth.models import User
 from . import models
 from .forms import laporanForm
 from laporan_admin import models
+from django.views.decorators.csrf import csrf_exempt
+import json as JSON
 
 def add_laporan(request):
     if request.method == 'POST':
@@ -65,3 +67,31 @@ def detail_laporan(request, id):
             'response' : response
             }
     return render(request, 'laporan-detail.html', context)
+
+@csrf_exempt
+def add_laporan_flutter(request):
+    if request.method == "POST":
+        data = JSON.loads(request.body)
+
+        laporan = models.laporan(
+                            user = request.user,
+                            name = data['name'], 
+                            phone_num = data['phone_num'], 
+                            email = data['email'], 
+                            case_name = data['case_name'], 
+                            victim_name = data['victim_name'],
+                            victim_description = data['victim_description'], 
+                            crime_place = data['crime_place'], 
+                            chronology = data['chronology']
+        )
+
+        try:
+            laporan.save()
+        except:
+            return JsonResponse({
+            "success": "Error"
+        })
+        else:
+            return JsonResponse({
+            "success": "Reply berhasil terkirim!",
+        })
