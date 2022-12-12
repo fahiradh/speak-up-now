@@ -39,6 +39,7 @@ def register(request):
 def register_ajax(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        
         username = data['username']
         password1 = data['password1']
         password2 = data['password2']
@@ -129,4 +130,17 @@ def userdetail(request):
         return JsonResponse({
         "status": False,
         "message": "Failed to Login, check your password."
+        }, status=401)
+
+def logout_flutter(request):
+    try:
+        logout(request)
+        return JsonResponse({
+            "status": True,
+            "message": "Successfully Logged Out!"
+        }, status= 200)
+    except:
+        return JsonResponse({
+            "status": False,
+            "message": "Failed to Logout"
         }, status=401)
