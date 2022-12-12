@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from forms import LoginForm, SignUpForm
+from home.forms import LoginForm, SignUpForm
 from home.models import Pengguna
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -37,9 +37,9 @@ def register(request):
 
 @csrf_exempt
 def register_ajax(request):
+    print(request.body)
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
         username = data['username']
         password1 = data['password1']
         password2 = data['password2']
