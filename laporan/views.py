@@ -69,7 +69,7 @@ def detail_laporan(request, id):
     return render(request, 'laporan-detail.html', context)
 
 @csrf_exempt
-def add_reply_flutter(request):
+def add_laporan_flutter(request):
     if request.method == "POST":
         data = JSON.loads(request.body)
 
