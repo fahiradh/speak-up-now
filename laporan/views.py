@@ -39,11 +39,11 @@ def add_laporan(request):
             new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
             new_response.save()
         return JsonResponse({
-            "success": "Error"
+            "success": "Reply berhasil terkirim!"
         })
 
     return JsonResponse({
-            "success": "Reply berhasil terkirim!",
+            "success": "Error",
         })
 
 @login_required(login_url='/login')
@@ -77,6 +77,7 @@ def detail_laporan(request, id):
 
 @csrf_exempt
 def add_laporan_flutter(request):
+    print('halo')
     if request.method == "POST":
         data = JSON.loads(request.body)
         user = models.laporan.objects.filter(user = data['id'])
