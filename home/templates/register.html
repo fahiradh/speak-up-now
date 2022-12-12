@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 {% endblock meta %}
 
@@ -49,14 +50,7 @@
                             <input class="btn btn-primary btn-block" style="width: 40%; margin-top: 1.5rem; margin-bottom: 0;" type="submit" name="submit" value="Daftar">
                         </div>
                     </form>
-                    <div class="d-flex justify-content-center align-content-center">
-                        {% if messages %}  
-                            <ul>   
-                                {% for message in messages %}  
-                                    <li>{{ message }}</li>  
-                                    {% endfor %}  
-                            </ul>   
-                        {% endif %} 
+                    <div class="d-flex justify-content-center align-content-center" id="message">
                     </div>
                         
 
@@ -67,38 +61,23 @@
 </section>
 
 <script>
-        $(document).ready(function() {
-        $("#register").submit(function (e) {
-            e.preventDefault()
-            var konsulir = [];
-            if ($('#is_konsulir').is(":checked")){
-                konsulir = "True";
-            }
-            else {
-                konsulir = "False";
-            }
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            const formData = {
-                username: $('#username').val(),
-                password1: $('#password1').val(),
-                password2: $('#password2').val(),
-                is_konsulir: konsulir.val(),
-            }
+    $(document).ready(function(){
+        $("#username").change(function () {
+            var username = $(this).val();
+
             $.ajax({
-                async: true,
-                type: "POST",
-                headers: {'X-CSRFToken': csrftoken},
-                url: "/register/",
-                data: formData,
-                dataType: 'json',
-                success: function(response){
-                $("#register").each(function(){
-                    this.reset();
-                })
-                $('#message').text("Akun berhasil dibuat!")
+                url:'validate-username/',
+                data:{
+                    'username': username
                 },
-                error: function(response){
-                    $('#message').text("Harap dicek kembali!")
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        $("#message").text("Username tidak tersedia!")
+                    }
+                    else{
+                        $("#message").empty()
+                    }
                 }
             })
         })

@@ -1,14 +1,17 @@
+import json as JSON
 from django.shortcuts import render, redirect
 from curhat.models import curhatDong
 from curhat_admin.forms import replyCurhatForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import datetime
 
 from curhat_admin.models import curhatAdmin
 
 # Create your views here.
+@login_required(login_url='/login')
 def show_table_curhat(request):
     return render(request, 'table-curhat.html')
 
@@ -24,6 +27,7 @@ def delete_json(request, i):
         
     return HttpResponse('')
 
+@login_required(login_url='/login')
 def show_curhat_details(request, i):
     form = replyCurhatForm()
     details = curhatDong.objects.get(id=i)  
@@ -67,3 +71,41 @@ def add_reply(request, i):
 def reply_json(request, i):
     reply = curhatAdmin.objects.filter(id=i)
     return HttpResponse(serializers.serialize('json', reply), content_type='application/json')
+
+@csrf_exempt
+def add_reply_flutter(request):
+    if request.method == "POST":
+        data = JSON.loads(request.body)
+
+        reply = curhatAdmin(
+                            date = datetime.date.today(),
+                            title = data["title"],
+                            description = data["description"],
+                            id = data["pk"],
+        )
+
+        try:
+            reply.save()
+        except:
+            return JsonResponse({
+            "success": "Error"
+        })
+        else:
+            return JsonResponse({
+            "success": "Reply berhasil terkirim!",
+        })
+    
+@csrf_exempt
+def delete_json_flutter(request, i):
+    obj = curhatDong.objects.get(id=i)
+
+    try:
+        obj.delete()
+    except:
+        return JsonResponse({
+        "success": "Error"
+    })
+    else:
+        return JsonResponse({
+        "success": "Konsultasi terhapus!",
+    })

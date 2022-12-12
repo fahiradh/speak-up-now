@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from home.forms import LoginForm, SignUpForm
 from home.models import Pengguna
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 
 def homepage(request):
     list = Pengguna.objects.all()
@@ -29,46 +31,108 @@ def register(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Akun telah berhasil dibuat!')
             return redirect('home:homepage')
     context = {'form': form}
     return render(request, 'register.html', context)
 
+@csrf_exempt
+def register_ajax(request):
+    form = SignUpForm(request.POST)
+    data = {}
+    if request.method == "POST":
+
+        username = form.data.get('username')
+        password1 = form.data.get('password1')
+        password2 = form.data.get('password2')
+        administrator = form.data.get('is_konsulir')
+
+        if password1 != password2:
+            return JsonResponse({
+                'status': False,
+                'message': "Password Didn't Match",
+            }, status= 401)
+        form.save()
+        
+        return JsonResponse({
+            'status': True,
+            'message': "Account has been Successfully Registered"
+        }, status=200)
+    else:
+        return JsonResponse({
+                'status': False,
+                'message': "Registration Not Valid!",
+            }, status= 401)
+            
+
+
+
+
+def validate_username(request):
+    username = request.GET.get('username')
+    data = {
+        'is_taken': Pengguna.objects.filter(username=username).exists()
+    }
+    return JsonResponse(data)
+
+@csrf_exempt
 def login_user(request):
     form = LoginForm(request.POST)
+
     messages = None
     if request.method == 'POST':
         if form.is_valid():
             username= form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+
             user = authenticate(username=username, password=password)
             if user is not None and user.is_konsulir:
-                login(request, user)
-                return redirect('curhat_admin:table-curhat')
+                auth_login(request, user)
+                return redirect('home:homepage')
             elif user is not None and (user.is_konsulir == False):
-                login(request, user)
+                auth_login(request, user)
                 return redirect('home:homepage')
             else:
                 messages = 'Username atau Password salah!'
+                JsonResponse({
+                "status": False,
+                "message": "Failed to Login, check your email/password."
+                }, status=401)
         else:
             messages = 'Error Validating Form'
     return render(request, 'login.html', {'form' : form, 'messages': messages})
-    # if request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     user = authenticate(request, username=username, password=password)
-    #     if user is not None:
-    #         login(request, user)
-    #         user_type = Pengguna.objects.filter(request)
-    #         if user.is_authenticated and user_type.is_konsulir == 1:
-    #             return redirect('curhat_admin:table-curhat')
-    #         elif user.is_authenticated and user_type.is_konsulir == 0:
-    #             return redirect('home:homepage')
-    #     else:
-    #         messages.info(request, 'Username atau Password salah!')
-    # context = {}
-    # return render(request, 'login.html', context)
 
 def logout_user(request):
     logout(request)
     return redirect('home:homepage')
+
+@csrf_exempt
+def userdetail(request):
+    data = {}
+    form = LoginForm(request.POST) 
+    username= form.data.get('username')
+    password = form.data.get('password')
+
+    user = authenticate(username= username, password=password)
+    if user is not None:
+        if user.is_active:
+            auth_login(request, user)
+            data['username'] = user.username
+            data['is_konsulir'] = user.is_konsulir
+            return JsonResponse(
+                {
+                "status": True,
+                "message" : "Successfully Logged In!",
+                "data" : data, 
+                }, status= 200)
+
+        else:
+            return JsonResponse({
+            "status": False,
+            "message": "Failed to Login, Account Disabled."
+            }, status=401)
+
+    else:
+        return JsonResponse({
+        "status": False,
+        "message": "Failed to Login, check your password."
+        }, status=401)
