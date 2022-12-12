@@ -9,5 +9,6 @@ urlpatterns= [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('register/validate-username/', validate_username, name='validate-username'),
-    path('user-details/', userdetail, name='userdetails')
+    path('user-details/', userdetail, name='userdetails'),
+    path('register-ajax/', register_ajax, name='register-ajax')
 ]

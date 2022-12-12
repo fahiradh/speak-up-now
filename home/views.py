@@ -35,6 +35,38 @@ def register(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
+@csrf_exempt
+def register_ajax(request):
+    form = SignUpForm(request.POST)
+    data = {}
+    if request.method == "POST":
+
+        username = form.data.get('username')
+        password1 = form.data.get('password1')
+        password2 = form.data.get('password2')
+        administrator = form.data.get('is_konsulir')
+
+        if password1 != password2:
+            return JsonResponse({
+                'status': False,
+                'message': "Password Didn't Match",
+            }, status= 401)
+        form.save()
+        
+        return JsonResponse({
+            'status': True,
+            'message': "Account has been Successfully Registered"
+        }, status=200)
+    else:
+        return JsonResponse({
+                'status': False,
+                'message': "Registration Not Valid!",
+            }, status= 401)
+            
+
+
+
+
 def validate_username(request):
     username = request.GET.get('username')
     data = {
@@ -75,7 +107,6 @@ def logout_user(request):
 
 @csrf_exempt
 def userdetail(request):
-    data = {}
     form = LoginForm(request.POST) 
     username= form.data.get('username')
     password = form.data.get('password')
@@ -84,9 +115,13 @@ def userdetail(request):
     if user is not None:
         if user.is_active:
             auth_login(request, user)
-            data['username'] = user.username
-            data['is_konsulir'] = user.is_konsulir
-            return JsonResponse(data, status= 200)
+            return JsonResponse(
+                {
+                "status": True,
+                "message" : "Successfully Logged In!",
+                "username" : user.username,
+                "is_konsulir" : user.is_konsulir,
+                }, status= 200)
 
         else:
             return JsonResponse({
