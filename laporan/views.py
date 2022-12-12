@@ -27,7 +27,7 @@ def add_laporan(request):
             user = request.user
             name = request.POST['name']
             phone_num = request.POST['phone_num']
-            email = request.POST    ['email']
+            email = request.POST['email']
             case_name = request.POST['case_name']
             victim_name = request.POST['victim_name']
             victim_description = request.POST['victim_description']
