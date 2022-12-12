@@ -24,22 +24,26 @@ def add_laporan(request):
         form = laporanForm(request.POST)
         if form.is_valid():
             user = request.user
-            name = request.POST.get('name')
-            phone_num = request.POST.get('phone_num')
-            email = request.POST.get('email')
-            case_name = request.POST.get('case_name')
-            victim_name = request.POST.get('victim_name')
-            victim_description = request.POST.get('victim_description')
-            crime_place = request.POST.get('crime_place')
-            chronology = request.POST.get('chronology')
+            name = request.POST['name']
+            phone_num = request.POST['phone_num']
+            email = request.POST['email']
+            case_name = request.POST['case_name']
+            victim_name = request.POST['victim_name']
+            victim_description = request.POST['victim_description']
+            crime_place = request.POST['crime_place']
+            chronology = request.POST['chronology']
             new_laporan = models.laporan(user = user,name = name, phone_num = phone_num, email = email, case_name = case_name, victim_name = victim_name,
                                         victim_description = victim_description, crime_place = crime_place, chronology = chronology)
             new_laporan.save()
             new_response = models.laporanResponse(laporan_user=new_laporan, admin_name="-", case_name=case_name, status_case=None, admin_response="-")
             new_response.save()
-        return HttpResponse(b"CREATED", status=201)
+        return JsonResponse({
+            "success": "Error"
+        })
 
-    return HttpResponseNotFound()
+    return JsonResponse({
+            "success": "Reply berhasil terkirim!",
+        })
 
 @login_required(login_url='/login')
 def show_laporan(request):
